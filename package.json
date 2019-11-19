@@ -1,0 +1,35 @@
+{
+  "name": "adzerk-decision-sdk",
+  "version": "1.0.0",
+  "description": "SDK for interacting with Adzerk's Decision API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adzerk/adzerk-decision-sdk-js.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adzerk/adzerk-decision-sdk-js/issues"
+  },
+  "homepage": "https://github.com/adzerk/adzerk-decision-sdk-js#readme",
+  "devDependencies": {
+    "husky": "^3.1.0",
+    "lint-staged": "^9.4.3",
+    "prettier": "^1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
