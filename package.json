@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo 'No tests defined'; exit 0",
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' ./",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
     "build": "tsc -p .",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
