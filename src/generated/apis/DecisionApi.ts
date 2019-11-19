@@ -13,17 +13,10 @@
  */
 
 import * as runtime from "../runtime";
-import {
-  Request,
-  RequestFromJSON,
-  RequestToJSON,
-  Response,
-  ResponseFromJSON,
-  ResponseToJSON
-} from "../models";
+import { Response, ResponseFromJSON, ResponseToJSON } from "../models";
 
 export interface GetDecisionsRequest {
-  request?: Request;
+  body?: object;
 }
 
 /**
@@ -47,7 +40,7 @@ export class DecisionApi extends runtime.BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: RequestToJSON(requestParameters.request)
+      body: requestParameters.body as any
     });
 
     return new runtime.JSONApiResponse(response, jsonValue =>
@@ -58,8 +51,8 @@ export class DecisionApi extends runtime.BaseAPI {
   /**
    * Request Decision(s)
    */
-  async getDecisions(request?: Request): Promise<Response> {
-    const response = await this.getDecisionsRaw({ request: request });
+  async getDecisions(body?: object): Promise<Response> {
+    const response = await this.getDecisionsRaw({ body: body });
     return await response.value();
   }
 }
