@@ -2,9 +2,12 @@
   "name": "adzerk-decision-sdk",
   "version": "1.0.0",
   "description": "SDK for interacting with Adzerk's Decision API",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'No tests defined'; exit 0",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' ./",
+    "build": "tsc -p .",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,12 @@
   "devDependencies": {
     "husky": "^3.1.0",
     "lint-staged": "^9.4.3",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "@types/node": "^12.11.7",
+    "@types/node-fetch": "^2.5.2",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {

@@ -13,7 +13,14 @@
  */
 
 import * as runtime from "../runtime";
-import { Request, RequestFromJSON, RequestToJSON } from "../models";
+import {
+  Request,
+  RequestFromJSON,
+  RequestToJSON,
+  Response,
+  ResponseFromJSON,
+  ResponseToJSON
+} from "../models";
 
 export interface GetDecisionsRequest {
   request?: Request;
@@ -28,7 +35,7 @@ export class DecisionApi extends runtime.BaseAPI {
    */
   async getDecisionsRaw(
     requestParameters: GetDecisionsRequest
-  ): Promise<runtime.ApiResponse<object>> {
+  ): Promise<runtime.ApiResponse<Response>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -43,14 +50,16 @@ export class DecisionApi extends runtime.BaseAPI {
       body: RequestToJSON(requestParameters.request)
     });
 
-    return new runtime.JSONApiResponse<any>(response);
+    return new runtime.JSONApiResponse(response, jsonValue =>
+      ResponseFromJSON(jsonValue)
+    );
   }
 
   /**
    * Request Decision(s)
    */
-  async getDecisions(requestParameters: GetDecisionsRequest): Promise<object> {
-    const response = await this.getDecisionsRaw(requestParameters);
+  async getDecisions(request?: Request): Promise<Response> {
+    const response = await this.getDecisionsRaw({ request: request });
     return await response.value();
   }
 }
