@@ -39,5 +39,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "dependencies": {
+    "isomorphic-unfetch": "^3.0.0"
   }
 }
