@@ -4,7 +4,7 @@
   "description": "SDK for interacting with Adzerk's Decision API",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo 'No tests defined'; exit 0",
+    "test": "jest",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
     "build": "tsc -p .",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
@@ -20,10 +20,15 @@
   },
   "homepage": "https://github.com/adzerk/adzerk-decision-sdk-js#readme",
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-typescript": "^7.7.2",
     "@types/debug": "^4.1.5",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.11.7",
     "@types/node-fetch": "^2.5.2",
     "husky": "^3.1.0",
+    "jest": "^24.9.0",
     "lint-staged": "^9.4.3",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
