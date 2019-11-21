@@ -1,16 +1,6 @@
 import "jest";
-// import fetch from 'isomorphic-unfetch';
 import { Response } from "node-fetch";
-// import fetch, { Response } from 'node-fetch';
 import Client from "../src";
-
-//jest.mock('node-fetch');
-
-// let fetchMock = (fetch as any);
-
-// beforeEach(() => {
-//   fetchMock.mockReset();
-// });
 
 let fetch = jest.fn(async (url: string, opts: any) => {
   return Promise.resolve(
@@ -19,16 +9,12 @@ let fetch = jest.fn(async (url: string, opts: any) => {
 });
 
 test("addition", async () => {
-  // let r = new Response('');
-  // r.clone();
-  // fetchMock.mockResolvedValue(new Response('{}'));
-
   let client = new Client({
     networkId: 23,
     fetch: fetch as any
   });
 
-  let result = await client.getDecisions({
+  let request = {
     placements: [
       {
         divName: "div1",
@@ -38,10 +24,14 @@ test("addition", async () => {
       }
     ],
     user: { key: "abc" }
-  });
+  };
 
-  console.log(fetch.mock.calls.length);
-  // console.log(fetchMock.mock.calls.length);
+  let result = await client.getDecisions(request);
 
-  expect(1 + 1).toBe(2);
+  expect(fetch.mock.calls.length).toBe(1);
+  expect(fetch.mock.calls[0][0]).toBe("https://e-23.adzerk.net/api/v2");
+
+  let body = JSON.parse(fetch.mock.calls[0][1].body);
+
+  expect(body).toEqual(request);
 });
