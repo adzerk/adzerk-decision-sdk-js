@@ -1,5 +1,6 @@
 import unfetch from 'isomorphic-unfetch';
 import debug from 'debug';
+import FormData from 'form-data';
 
 import {
   FetchAPI,
@@ -12,6 +13,8 @@ import {
 } from './generated';
 import { Request, Response, decisionsIsMultiWinner } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
+
+(global as any).FormData = (global as any).FormData || FormData;
 
 const log = debug('adzerk-decision-sdk:client');
 

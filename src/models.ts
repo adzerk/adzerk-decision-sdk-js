@@ -20,6 +20,10 @@ interface MultiWinnerDecisions {
 }
 
 export function decisionsIsMultiWinner(obj: any): obj is MultiWinnerDecisions {
+  if (obj == undefined) {
+    return false;
+  }
+
   let keys = Object.keys(obj);
   if (keys.length === 0) {
     return false;
