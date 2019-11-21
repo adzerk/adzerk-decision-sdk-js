@@ -2,15 +2,14 @@ export const removeUndefinedAndBlocklisted = (
   obj: any,
   blocklist: Array<string> = []
 ): any => {
+  if (Array.isArray(obj)) {
+    return obj.map(o => removeUndefinedAndBlocklisted(o));
+  }
+
   return typeof obj !== 'object'
     ? obj
     : Object.keys(obj).reduce((acc: any, key: string) => {
         if (blocklist.includes(key) || obj[key] == undefined) {
-          return acc;
-        }
-
-        if (Array.isArray(obj[key])) {
-          acc[key] = obj[key].map((v: any) => removeUndefinedAndBlocklisted(v));
           return acc;
         }
 
