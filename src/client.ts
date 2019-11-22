@@ -11,8 +11,9 @@ import {
   RequestContext,
   ResponseContext,
 } from './generated';
-import { Request, Response, decisionsIsMultiWinner } from './models';
+import { Request, Response, isDecisionMultiWinner } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
+import { inherits } from 'util';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
@@ -27,17 +28,31 @@ interface ClientOptions {
 
 export class Client {
   private _api: DecisionApi;
+  private _agent: any;
 
   constructor(opts: ClientOptions) {
     let fetch: FetchAPI = opts.fetch || unfetch;
-    let basePath: string =
-      opts.basePath || `https://e-${opts.networkId}.adzerk.net`;
+    let basePath: string = opts.basePath || `https://e-${opts.networkId}.adzerk.net`;
+
+    if (typeof process !== 'undefined') {
+      let { Agent } = require('http');
+      this._agent = new Agent({
+        keepAlive: true,
+        timeout: 10 * 1000,
+      });
+    }
 
     let middleware: Middleware = {
       pre: async (context: RequestContext): Promise<FetchParams | void> => {
         log(`Request Url: ${context.url}`);
         log('Request Headers: %o', context.init.headers);
         log('Request Body: %o', context.init.body);
+
+        if (this._agent != undefined) {
+          (context.init as any).agent = this._agent;
+        }
+
+        return context;
       },
       post: async (context: ResponseContext) => {
         log('Response Code: %s', context.response.status);
@@ -64,11 +79,7 @@ export class Client {
     log('Received response: %o', response);
     let typed = response as Response;
 
-    log(
-      decisionsIsMultiWinner(typed.decisions)
-        ? 'Is Multiwinner'
-        : 'Not Multiwinner'
-    );
+    log(isDecisionMultiWinner(typed.decisions) ? 'Is Multiwinner' : 'Not Multiwinner');
 
     return response as Response;
   }

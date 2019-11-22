@@ -19,7 +19,7 @@ interface MultiWinnerDecisions {
   [placementName: string]: Array<Decision>;
 }
 
-export function decisionsIsMultiWinner(obj: any): obj is MultiWinnerDecisions {
+export function isDecisionMultiWinner(obj: any): obj is MultiWinnerDecisions {
   if (obj == undefined) {
     return false;
   }
