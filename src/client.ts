@@ -11,28 +11,41 @@ import {
   RequestContext,
   ResponseContext,
 } from './generated';
-import { Request, Response, isDecisionMultiWinner } from './models';
+import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { inherits } from 'util';
+import { Decisions } from '../lib/models';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
 const log = debug('adzerk-decision-sdk:client');
 
+function isDecisionMultiWinner(obj: any): boolean {
+  return obj instanceof Array;
+}
+
 interface ClientOptions {
   networkId: number;
   fetch?: FetchAPI;
-  basePath?: string;
+  protocol?: string;
+  host?: string;
+  path?: string;
   middlewares?: Middleware[];
 }
 
 export class Client {
   private _api: DecisionApi;
   private _agent: any;
+  private _path?: string;
 
   constructor(opts: ClientOptions) {
     let fetch: FetchAPI = opts.fetch || unfetch;
-    let basePath: string = opts.basePath || `https://e-${opts.networkId}.adzerk.net`;
+
+    let protocol: string = opts.protocol || 'https';
+    let host: string = opts.host || `e-${opts.networkId}.adzerk.net`;
+    let basePath: string = `${protocol}://${host}`;
+
+    this._path = opts.path;
 
     if (typeof process !== 'undefined') {
       let { Agent } = require('http');
@@ -50,6 +63,10 @@ export class Client {
 
         if (this._agent != undefined) {
           (context.init as any).agent = this._agent;
+        }
+
+        if (this._path != undefined) {
+          context.url = `${basePath}${this._path}`;
         }
 
         return context;
@@ -77,9 +94,14 @@ export class Client {
     let response = await this._api.getDecisions(processedRequest);
 
     log('Received response: %o', response);
-    let typed = response as Response;
 
-    log(isDecisionMultiWinner(typed.decisions) ? 'Is Multiwinner' : 'Not Multiwinner');
+    let decisions: any = response.decisions || {};
+
+    Object.keys(decisions).forEach((k: string) => {
+      if (!isDecisionMultiWinner(decisions[k])) {
+        decisions[k] = [decisions[k]];
+      }
+    });
 
     return response as Response;
   }
