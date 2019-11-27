@@ -87,6 +87,7 @@ export class Client {
   }
 
   async getDecisions(request: Request): Promise<Response> {
+    log('Fetching decisions from Adzerk API');
     log('Processing request: %o', request);
     let processedRequest = removeUndefinedAndBlocklisted(request);
 
@@ -94,7 +95,38 @@ export class Client {
     let response = await this._api.getDecisions(processedRequest);
 
     log('Received response: %o', response);
+    let decisions: any = response.decisions || {};
 
+    Object.keys(decisions).forEach((k: string) => {
+      if (!isDecisionMultiWinner(decisions[k])) {
+        decisions[k] = [decisions[k]];
+      }
+    });
+
+    return response as Response;
+  }
+
+  async getDecisionsWithExplanation(request: Request, apiKey: string): Promise<Response> {
+    log('Fetching decisions with explanations from Adzerk API');
+    log('Processing request: %o', request);
+    let processedRequest = removeUndefinedAndBlocklisted(request);
+
+    log('Using the processed request: %o', processedRequest);
+    let response = await this._api
+      .withPreMiddleware(
+        async (context: RequestContext): Promise<FetchParams | void> => {
+          if (context.init.headers == undefined) {
+            context.init.headers = {};
+          }
+          let headers = context.init.headers as Record<string, string>;
+          headers['x-adzerk-explain'] = apiKey;
+
+          return context;
+        }
+      )
+      .getDecisions(processedRequest);
+
+    log('Received response: %o', response);
     let decisions: any = response.decisions || {};
 
     Object.keys(decisions).forEach((k: string) => {
