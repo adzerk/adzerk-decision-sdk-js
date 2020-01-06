@@ -14,7 +14,7 @@ import {
 import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { inherits } from 'util';
-import { Decisions } from '../lib/models';
+import { Decisions } from '../src/models';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
