@@ -48,7 +48,7 @@ export class Client {
     this._path = opts.path;
 
     if (typeof process !== 'undefined') {
-      let { Agent } = require('http');
+      let { Agent } = protocol === 'https' ? require('https') : require('http');
       this._agent = new Agent({
         keepAlive: true,
         timeout: 10 * 1000,
