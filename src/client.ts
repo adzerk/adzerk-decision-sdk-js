@@ -39,7 +39,7 @@ export class Client {
   private _path?: string;
 
   constructor(opts: ClientOptions) {
-    let fetch: FetchAPI = opts.fetch || unfetch;
+    let fetch: FetchAPI = (opts.fetch || unfetch).bind(global);
 
     let protocol: string = opts.protocol || 'https';
     let host: string = opts.host || `e-${opts.networkId}.adzerk.net`;
