@@ -1,6 +1,6 @@
 import "jest";
 import { Response } from "node-fetch";
-import Client from "../src";
+import { Client } from "../src";
 
 let buildFetchMock = (response: any) =>
   jest.fn(async (url: string, opts: any) => {
