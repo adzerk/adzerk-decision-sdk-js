@@ -27,19 +27,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
-    - name: npm publish
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v1
+      env:
+        JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
+    - name: artifactory publish
       run: |
-        cat > ~/.npmrc <<EOL
-        _auth = $CI_USERNAME_PASSWORD
-        email = jniessner@adzerk.com
-        always-auth=true
-        EOL
-        npm ci
-        npm publish --tag ${GITHUB_REF##*/}
+        jfrog rt bce
+        jfrog rt npmci npm-virtual --build-name=adzerk-decision-sdk-js --build-number ${GITHUB_REF##*/}
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
 
