@@ -33,9 +33,14 @@ jobs:
         registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
     - name: npm publish
       run: |
+        cat > ~/.npmrc <<EOL
+        _auth = $CI_USERNAME_PASSWORD
+        email = jniessner@adzerk.com
+        always-auth=true
+        EOL
         npm ci
         npm publish
       env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_CONFIG_TOKEN}}
+        CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
 
 
