@@ -1,6 +1,6 @@
 {
   "name": "adzerk-decision-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1-jn-branch-push-test.0",
   "description": "SDK for interacting with Adzerk's Decision API",
   "main": "lib/index.js",
   "scripts": {
