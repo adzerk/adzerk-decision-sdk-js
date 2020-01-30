@@ -31,5 +31,9 @@ jobs:
       with:
         node-version: 12.x
         registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
+    - name: npm publish
+      run: |
+        npm ci
+        npm publish
 
 
