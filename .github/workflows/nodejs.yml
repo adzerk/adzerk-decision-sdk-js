@@ -24,7 +24,21 @@ jobs:
         npm test
       env:
         CI: true
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+        registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
     - name: npm publish
       run: |
-        npm config set registry https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
+        npm ci
         npm publish
+      env:
+        NODE_AUTH_TOKEN: {{secrets.NPM_CONFIG_TOKEN}}
+
+
