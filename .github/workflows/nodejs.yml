@@ -38,8 +38,8 @@ jobs:
     - name: artifactory publish
       run: |
         jfrog rt bce
-        jfrog rt npmci npm --build-name=adzerk-decision-sdk-js --build-number ${GITHUB_REF##*/}
-        jfrog rt npmp npm --build-name=adzerk-decision-sdk-js --build-number ${GITHUB_REF##*/}
+        jfrog rt npmci npm --build-name=adzerk-decision-sdk-js --build-number $JFROG_CLI_BUILD_NUMBER
+        jfrog rt npmp npm --build-name=adzerk-decision-sdk-js --build-number $JFROG_CLI_BUILD_NUMBER
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
 
