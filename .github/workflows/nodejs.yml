@@ -24,3 +24,7 @@ jobs:
         npm test
       env:
         CI: true
+    - name: npm publish
+      run: |
+        npm config set registry https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
+        npm publish
