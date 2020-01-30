@@ -30,7 +30,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm/
+        registry-url: https://adzerkps.jfrog.io/adzerkps/api/npm/npm-local/
     - name: npm publish
       run: |
         cat > ~/.npmrc <<EOL
