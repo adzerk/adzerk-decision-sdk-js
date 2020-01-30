@@ -39,6 +39,7 @@ jobs:
       run: |
         jfrog rt bce
         jfrog rt npmci npm --build-name=adzerk-decision-sdk-js --build-number ${GITHUB_REF##*/}
+        jfrog rt npmp npm --build-name=adzerk-decision-sdk-js --build-number ${GITHUB_REF##*/}
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
 
