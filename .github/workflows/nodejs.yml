@@ -37,7 +37,7 @@ jobs:
         JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
     - name: artifactory publish
       run: |
-        npm version prerelease --preid=${GITHUB_REF##*/}
+        npm --no-git-tag-version version prerelease --preid=${GITHUB_REF##*/}
         jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
         jfrog rt npmci npm
         jfrog rt npmp npm
