@@ -14,33 +14,33 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Object containing the UserKey used for [UserDB targeting](https://dev.adzerk.com/docs/userdb-1)
+ *
  * @export
- * @interface User
+ * @interface Consent
  */
-export interface User {
+export interface Consent {
   /**
-   * The UserKey used for UserDB Targeting
-   * @type {string}
-   * @memberof User
+   *
+   * @type {boolean}
+   * @memberof Consent
    */
-  key?: string;
+  gdpr?: boolean;
 }
 
-export function UserFromJSON(json: any): User {
-  return UserFromJSONTyped(json, false);
+export function ConsentFromJSON(json: any): Consent {
+  return ConsentFromJSONTyped(json, false);
 }
 
-export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
+export function ConsentFromJSONTyped(json: any, ignoreDiscriminator: boolean): Consent {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    key: !exists(json, 'key') ? undefined : json['key'],
+    gdpr: !exists(json, 'gdpr') ? undefined : json['gdpr'],
   };
 }
 
-export function UserToJSON(value?: User | null): any {
+export function ConsentToJSON(value?: Consent | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -48,6 +48,6 @@ export function UserToJSON(value?: User | null): any {
     return null;
   }
   return {
-    key: value.key,
+    gdpr: value.gdpr,
   };
 }

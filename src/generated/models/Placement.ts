@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 /**
  *
  * @export
@@ -129,26 +129,24 @@ export function PlacementFromJSONTyped(
     return json;
   }
   return {
-    divName: !exists(json, "divName") ? undefined : json["divName"],
-    networkId: !exists(json, "networkId") ? undefined : json["networkId"],
-    siteId: !exists(json, "siteId") ? undefined : json["siteId"],
-    adTypes: !exists(json, "adTypes") ? undefined : json["adTypes"],
-    zoneIds: !exists(json, "zoneIds") ? undefined : json["zoneIds"],
-    campaignId: !exists(json, "campaignId") ? undefined : json["campaignId"],
-    flightId: !exists(json, "flightId") ? undefined : json["flightId"],
-    adId: !exists(json, "adId") ? undefined : json["adId"],
-    clickUrl: !exists(json, "clickUrl") ? undefined : json["clickUrl"],
-    properties: !exists(json, "properties") ? undefined : json["properties"],
-    eventIds: !exists(json, "eventIds") ? undefined : json["eventIds"],
-    overrides: !exists(json, "overrides") ? undefined : json["overrides"],
-    contentKeys: !exists(json, "contentKeys") ? undefined : json["contentKeys"],
-    count: !exists(json, "count") ? undefined : json["count"],
-    proportionality: !exists(json, "proportionality")
+    divName: !exists(json, 'divName') ? undefined : json['divName'],
+    networkId: !exists(json, 'networkId') ? undefined : json['networkId'],
+    siteId: !exists(json, 'siteId') ? undefined : json['siteId'],
+    adTypes: !exists(json, 'adTypes') ? undefined : json['adTypes'],
+    zoneIds: !exists(json, 'zoneIds') ? undefined : json['zoneIds'],
+    campaignId: !exists(json, 'campaignId') ? undefined : json['campaignId'],
+    flightId: !exists(json, 'flightId') ? undefined : json['flightId'],
+    adId: !exists(json, 'adId') ? undefined : json['adId'],
+    clickUrl: !exists(json, 'clickUrl') ? undefined : json['clickUrl'],
+    properties: !exists(json, 'properties') ? undefined : json['properties'],
+    eventIds: !exists(json, 'eventIds') ? undefined : json['eventIds'],
+    overrides: !exists(json, 'overrides') ? undefined : json['overrides'],
+    contentKeys: !exists(json, 'contentKeys') ? undefined : json['contentKeys'],
+    count: !exists(json, 'count') ? undefined : json['count'],
+    proportionality: !exists(json, 'proportionality')
       ? undefined
-      : json["proportionality"],
-    ecpmPartition: !exists(json, "ecpmPartition")
-      ? undefined
-      : json["ecpmPartition"]
+      : json['proportionality'],
+    ecpmPartition: !exists(json, 'ecpmPartition') ? undefined : json['ecpmPartition'],
   };
 }
 
@@ -175,6 +173,6 @@ export function PlacementToJSON(value?: Placement | null): any {
     contentKeys: value.contentKeys,
     count: value.count,
     proportionality: value.proportionality,
-    ecpmPartition: value.ecpmPartition
+    ecpmPartition: value.ecpmPartition,
   };
 }

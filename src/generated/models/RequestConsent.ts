@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 /**
  * Object that sets the data consent preferences. Other consent settings are available in the GDPR settings documentation.
  * @export
@@ -39,7 +39,7 @@ export function RequestConsentFromJSONTyped(
     return json;
   }
   return {
-    gdpr: !exists(json, "gdpr") ? undefined : json["gdpr"]
+    gdpr: !exists(json, 'gdpr') ? undefined : json['gdpr'],
   };
 }
 
@@ -51,6 +51,6 @@ export function RequestConsentToJSON(value?: RequestConsent | null): any {
     return null;
   }
   return {
-    gdpr: value.gdpr
+    gdpr: value.gdpr,
   };
 }

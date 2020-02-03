@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 /**
  *
  * @export
@@ -63,11 +63,11 @@ export function DecisionDataFromJSONTyped(
     return json;
   }
   return {
-    imageURL: !exists(json, "imageURL") ? undefined : json["imageURL"],
-    title: !exists(json, "title") ? undefined : json["title"],
-    width: !exists(json, "width") ? undefined : json["width"],
-    height: !exists(json, "height") ? undefined : json["height"],
-    customData: !exists(json, "customData") ? undefined : json["customData"]
+    imageURL: !exists(json, 'imageURL') ? undefined : json['imageURL'],
+    title: !exists(json, 'title') ? undefined : json['title'],
+    width: !exists(json, 'width') ? undefined : json['width'],
+    height: !exists(json, 'height') ? undefined : json['height'],
+    customData: !exists(json, 'customData') ? undefined : json['customData'],
   };
 }
 
@@ -83,6 +83,6 @@ export function DecisionDataToJSON(value?: DecisionData | null): any {
     title: value.title,
     width: value.width,
     height: value.height,
-    customData: value.customData
+    customData: value.customData,
   };
 }

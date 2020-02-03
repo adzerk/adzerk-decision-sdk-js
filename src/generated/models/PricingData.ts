@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 /**
  *
  * @export
@@ -63,11 +63,11 @@ export function PricingDataFromJSONTyped(
     return json;
   }
   return {
-    price: !exists(json, "price") ? undefined : json["price"],
-    clearPrice: !exists(json, "clearPrice") ? undefined : json["clearPrice"],
-    revenue: !exists(json, "revenue") ? undefined : json["revenue"],
-    rateType: !exists(json, "rateType") ? undefined : json["rateType"],
-    eCPM: !exists(json, "eCPM") ? undefined : json["eCPM"]
+    price: !exists(json, 'price') ? undefined : json['price'],
+    clearPrice: !exists(json, 'clearPrice') ? undefined : json['clearPrice'],
+    revenue: !exists(json, 'revenue') ? undefined : json['revenue'],
+    rateType: !exists(json, 'rateType') ? undefined : json['rateType'],
+    eCPM: !exists(json, 'eCPM') ? undefined : json['eCPM'],
   };
 }
 
@@ -83,6 +83,6 @@ export function PricingDataToJSON(value?: PricingData | null): any {
     clearPrice: value.clearPrice,
     revenue: value.revenue,
     rateType: value.rateType,
-    eCPM: value.eCPM
+    eCPM: value.eCPM,
   };
 }

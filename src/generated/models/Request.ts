@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 import {
   Placement,
   PlacementFromJSON,
@@ -25,8 +25,8 @@ import {
   User,
   UserFromJSON,
   UserFromJSONTyped,
-  UserToJSON
-} from "./";
+  UserToJSON,
+} from './';
 
 /**
  *
@@ -124,38 +124,33 @@ export function RequestFromJSON(json: any): Request {
   return RequestFromJSONTyped(json, false);
 }
 
-export function RequestFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): Request {
+export function RequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): Request {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    placements: (json["placements"] as Array<any>).map(PlacementFromJSON),
-    user: !exists(json, "user") ? undefined : UserFromJSON(json["user"]),
-    keywords: !exists(json, "keywords") ? undefined : json["keywords"],
-    url: !exists(json, "url") ? undefined : json["url"],
-    referrer: !exists(json, "referrer") ? undefined : json["referrer"],
-    ip: !exists(json, "ip") ? undefined : json["ip"],
-    blockedCreatives: !exists(json, "blockedCreatives")
+    placements: (json['placements'] as Array<any>).map(PlacementFromJSON),
+    user: !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
+    keywords: !exists(json, 'keywords') ? undefined : json['keywords'],
+    url: !exists(json, 'url') ? undefined : json['url'],
+    referrer: !exists(json, 'referrer') ? undefined : json['referrer'],
+    ip: !exists(json, 'ip') ? undefined : json['ip'],
+    blockedCreatives: !exists(json, 'blockedCreatives')
       ? undefined
-      : json["blockedCreatives"],
-    isMobile: !exists(json, "isMobile") ? undefined : json["isMobile"],
-    includePricingData: !exists(json, "includePricingData")
+      : json['blockedCreatives'],
+    isMobile: !exists(json, 'isMobile') ? undefined : json['isMobile'],
+    includePricingData: !exists(json, 'includePricingData')
       ? undefined
-      : json["includePricingData"],
-    notrack: !exists(json, "notrack") ? undefined : json["notrack"],
-    enableBotFiltering: !exists(json, "enableBotFiltering")
+      : json['includePricingData'],
+    notrack: !exists(json, 'notrack') ? undefined : json['notrack'],
+    enableBotFiltering: !exists(json, 'enableBotFiltering')
       ? undefined
-      : json["enableBotFiltering"],
-    enableUserDBIP: !exists(json, "enableUserDBIP")
+      : json['enableBotFiltering'],
+    enableUserDBIP: !exists(json, 'enableUserDBIP') ? undefined : json['enableUserDBIP'],
+    consent: !exists(json, 'consent')
       ? undefined
-      : json["enableUserDBIP"],
-    consent: !exists(json, "consent")
-      ? undefined
-      : RequestConsentFromJSON(json["consent"]),
-    deviceID: !exists(json, "deviceID") ? undefined : json["deviceID"]
+      : RequestConsentFromJSON(json['consent']),
+    deviceID: !exists(json, 'deviceID') ? undefined : json['deviceID'],
   };
 }
 
@@ -180,6 +175,6 @@ export function RequestToJSON(value?: Request | null): any {
     enableBotFiltering: value.enableBotFiltering,
     enableUserDBIP: value.enableUserDBIP,
     consent: RequestConsentToJSON(value.consent),
-    deviceID: value.deviceID
+    deviceID: value.deviceID,
   };
 }

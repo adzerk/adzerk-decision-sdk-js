@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 /**
  *
  * @export
@@ -37,16 +37,13 @@ export function EventFromJSON(json: any): Event {
   return EventFromJSONTyped(json, false);
 }
 
-export function EventFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): Event {
+export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Event {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    id: !exists(json, "id") ? undefined : json["id"],
-    url: !exists(json, "url") ? undefined : json["url"]
+    id: !exists(json, 'id') ? undefined : json['id'],
+    url: !exists(json, 'url') ? undefined : json['url'],
   };
 }
 
@@ -59,6 +56,6 @@ export function EventToJSON(value?: Event | null): any {
   }
   return {
     id: value.id,
-    url: value.url
+    url: value.url,
   };
 }
