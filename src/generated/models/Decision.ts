@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 import {
   Content,
   ContentFromJSON,
@@ -25,8 +25,8 @@ import {
   PricingData,
   PricingDataFromJSON,
   PricingDataFromJSONTyped,
-  PricingDataToJSON
-} from "./";
+  PricingDataToJSON,
+} from './';
 
 /**
  *
@@ -100,32 +100,25 @@ export function DecisionFromJSON(json: any): Decision {
   return DecisionFromJSONTyped(json, false);
 }
 
-export function DecisionFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): Decision {
+export function DecisionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Decision {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    adId: !exists(json, "adId") ? undefined : json["adId"],
-    creativeId: !exists(json, "creativeId") ? undefined : json["creativeId"],
-    flightId: !exists(json, "flightId") ? undefined : json["flightId"],
-    campaignId: !exists(json, "campaignId") ? undefined : json["campaignId"],
-    priorityId: !exists(json, "priorityId") ? undefined : json["priorityId"],
-    clickUrl: !exists(json, "clickUrl") ? undefined : json["clickUrl"],
-    contents: !exists(json, "contents")
+    adId: !exists(json, 'adId') ? undefined : json['adId'],
+    creativeId: !exists(json, 'creativeId') ? undefined : json['creativeId'],
+    flightId: !exists(json, 'flightId') ? undefined : json['flightId'],
+    campaignId: !exists(json, 'campaignId') ? undefined : json['campaignId'],
+    priorityId: !exists(json, 'priorityId') ? undefined : json['priorityId'],
+    clickUrl: !exists(json, 'clickUrl') ? undefined : json['clickUrl'],
+    contents: !exists(json, 'contents')
       ? undefined
-      : (json["contents"] as Array<any>).map(ContentFromJSON),
-    impressionUrl: !exists(json, "impressionUrl")
+      : (json['contents'] as Array<any>).map(ContentFromJSON),
+    impressionUrl: !exists(json, 'impressionUrl') ? undefined : json['impressionUrl'],
+    events: !exists(json, 'events')
       ? undefined
-      : json["impressionUrl"],
-    events: !exists(json, "events")
-      ? undefined
-      : (json["events"] as Array<any>).map(EventFromJSON),
-    pricing: !exists(json, "pricing")
-      ? undefined
-      : PricingDataFromJSON(json["pricing"])
+      : (json['events'] as Array<any>).map(EventFromJSON),
+    pricing: !exists(json, 'pricing') ? undefined : PricingDataFromJSON(json['pricing']),
   };
 }
 
@@ -152,6 +145,6 @@ export function DecisionToJSON(value?: Decision | null): any {
       value.events === undefined
         ? undefined
         : (value.events as Array<any>).map(EventToJSON),
-    pricing: PricingDataToJSON(value.pricing)
+    pricing: PricingDataToJSON(value.pricing),
   };
 }

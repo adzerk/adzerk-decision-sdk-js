@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
-import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from "./";
+import { exists, mapValues } from '../runtime';
+import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from './';
 
 /**
  *
@@ -33,22 +33,26 @@ export interface Response {
    * @memberof Response
    */
   decisions?: object;
+  /**
+   *
+   * @type {object}
+   * @memberof Response
+   */
+  explain?: object;
 }
 
 export function ResponseFromJSON(json: any): Response {
   return ResponseFromJSONTyped(json, false);
 }
 
-export function ResponseFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): Response {
+export function ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Response {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    user: !exists(json, "user") ? undefined : UserFromJSON(json["user"]),
-    decisions: !exists(json, "decisions") ? undefined : json["decisions"]
+    user: !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
+    decisions: !exists(json, 'decisions') ? undefined : json['decisions'],
+    explain: !exists(json, 'explain') ? undefined : json['explain'],
   };
 }
 
@@ -61,6 +65,7 @@ export function ResponseToJSON(value?: Response | null): any {
   }
   return {
     user: UserToJSON(value.user),
-    decisions: value.decisions
+    decisions: value.decisions,
+    explain: value.explain,
   };
 }

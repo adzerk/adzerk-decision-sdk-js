@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  */
 
-import * as runtime from "../runtime";
-import { Response, ResponseFromJSON, ResponseToJSON } from "../models";
+import * as runtime from '../runtime';
+import { Response, ResponseFromJSON, ResponseToJSON } from '../models';
 
 export interface GetDecisionsRequest {
   body?: object;
@@ -33,14 +33,14 @@ export class DecisionApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    headerParameters["Content-Type"] = "application/json";
+    headerParameters['Content-Type'] = 'application/json';
 
     const response = await this.request({
       path: `/api/v2`,
-      method: "POST",
+      method: 'POST',
       headers: headerParameters,
       query: queryParameters,
-      body: requestParameters.body as any
+      body: requestParameters.body as any,
     });
 
     return new runtime.JSONApiResponse(response, jsonValue =>

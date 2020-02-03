@@ -56,7 +56,7 @@ test("client obeys a protocol override", async () => {
     protocol: "http"
   });
 
-  await client.getDecisions({ placements: [] });
+  await client.Decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("http://e-23.adzerk.net/api/v2");
@@ -70,7 +70,7 @@ test("client obeys a host override", async () => {
     host: "ads.some.com"
   });
 
-  await client.getDecisions({ placements: [] });
+  await client.Decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("https://ads.some.com/api/v2");
@@ -84,7 +84,7 @@ test("client obeys a path override", async () => {
     path: "/some/crazy/proxy"
   });
 
-  await client.getDecisions({ placements: [] });
+  await client.Decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe(
@@ -102,7 +102,7 @@ test("client allows a full url override", async () => {
     path: "/some/crazy/proxy"
   });
 
-  let result = await client.getDecisions({ placements: [] });
+  let result = await client.Decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("http://ads.some.com/some/crazy/proxy");
@@ -162,7 +162,7 @@ test("client makes simple request and returns single winner response", async () 
     user: { key: "abc" }
   };
 
-  let result = await client.getDecisions(request);
+  let result = await client.Decisions.get(request);
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("https://e-23.adzerk.net/api/v2");
@@ -230,7 +230,7 @@ test("client makes simple request and returns multi winner response", async () =
     user: { key: "abc" }
   };
 
-  let result = await client.getDecisions(request);
+  let result = await client.Decisions.get(request);
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("https://e-23.adzerk.net/api/v2");
@@ -249,7 +249,7 @@ test("client makes explanation request with proper headers", async () => {
     fetch: fetch as any
   });
 
-  await client.getDecisionsWithExplanation({ placements: [] }, "abc123");
+  await client.Decisions.getWithExplanation({ placements: [] }, "abc123");
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][1]["headers"]["x-adzerk-explain"]).toBe("abc123");
@@ -263,8 +263,8 @@ test("client makes subsequent decision requests after explanation", async () => 
     fetch: fetch as any
   });
 
-  await client.getDecisionsWithExplanation({ placements: [] }, "abc123");
-  await client.getDecisions({ placements: [] });
+  await client.Decisions.getWithExplanation({ placements: [] }, "abc123");
+  await client.Decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(2);
   expect(fetch.mock.calls[1][1]["headers"]["x-adzerk-explain"]).toBeUndefined();

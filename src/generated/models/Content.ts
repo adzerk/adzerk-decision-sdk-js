@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from "../runtime";
+import { exists, mapValues } from '../runtime';
 import {
   DecisionData,
   DecisionDataFromJSON,
   DecisionDataFromJSONTyped,
-  DecisionDataToJSON
-} from "./";
+  DecisionDataToJSON,
+} from './';
 
 /**
  *
@@ -62,23 +62,16 @@ export function ContentFromJSON(json: any): Content {
   return ContentFromJSONTyped(json, false);
 }
 
-export function ContentFromJSONTyped(
-  json: any,
-  ignoreDiscriminator: boolean
-): Content {
+export function ContentFromJSONTyped(json: any, ignoreDiscriminator: boolean): Content {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    type: !exists(json, "type") ? undefined : json["type"],
-    template: !exists(json, "template") ? undefined : json["template"],
-    customTemplate: !exists(json, "customTemplate")
-      ? undefined
-      : json["customTemplate"],
-    data: !exists(json, "data")
-      ? undefined
-      : DecisionDataFromJSON(json["data"]),
-    body: !exists(json, "body") ? undefined : json["body"]
+    type: !exists(json, 'type') ? undefined : json['type'],
+    template: !exists(json, 'template') ? undefined : json['template'],
+    customTemplate: !exists(json, 'customTemplate') ? undefined : json['customTemplate'],
+    data: !exists(json, 'data') ? undefined : DecisionDataFromJSON(json['data']),
+    body: !exists(json, 'body') ? undefined : json['body'],
   };
 }
 
@@ -94,6 +87,6 @@ export function ContentToJSON(value?: Content | null): any {
     template: value.template,
     customTemplate: value.customTemplate,
     data: DecisionDataToJSON(value.data),
-    body: value.body
+    body: value.body,
   };
 }

@@ -1,5 +1,5 @@
-// tslint:disable
-// eslint-disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Adzerk Decision API
  * Adzerk Decision API
@@ -12,10 +12,9 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "https://e-23.adzerk.net".replace(/\/+$/, "");
+export const BASE_PATH = 'https://e-23.adzerk.net'.replace(/\/+$/, '');
 
-const isBlob = (value: any) =>
-  typeof Blob !== "undefined" && value instanceof Blob;
+const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 
 /**
  * This is the base class for all generated API classes.
@@ -35,7 +34,7 @@ export class BaseAPI {
 
   withPreMiddleware<T extends BaseAPI>(
     this: T,
-    ...preMiddlewares: Array<Middleware["pre"]>
+    ...preMiddlewares: Array<Middleware['pre']>
   ) {
     const middlewares = preMiddlewares.map(pre => ({ pre }));
     return this.withMiddleware<T>(...middlewares);
@@ -43,7 +42,7 @@ export class BaseAPI {
 
   withPostMiddleware<T extends BaseAPI>(
     this: T,
-    ...postMiddlewares: Array<Middleware["post"]>
+    ...postMiddlewares: Array<Middleware['post']>
   ) {
     const middlewares = postMiddlewares.map(post => ({ post }));
     return this.withMiddleware<T>(...middlewares);
@@ -60,14 +59,11 @@ export class BaseAPI {
 
   private createFetchParams(context: RequestOpts) {
     let url = this.configuration.basePath + context.path;
-    if (
-      context.query !== undefined &&
-      Object.keys(context.query).length !== 0
-    ) {
+    if (context.query !== undefined && Object.keys(context.query).length !== 0) {
       // only add the querystring to the URL if there are query parameters.
       // this is done to avoid urls ending with a "?" character which buggy webservers
       // do not handle correctly sometimes.
-      url += "?" + this.configuration.queryParamsStringify(context.query);
+      url += '?' + this.configuration.queryParamsStringify(context.query);
     }
     const body =
       context.body instanceof FormData ||
@@ -76,16 +72,12 @@ export class BaseAPI {
         ? context.body
         : JSON.stringify(context.body);
 
-    const headers = Object.assign(
-      {},
-      this.configuration.headers,
-      context.headers
-    );
+    const headers = Object.assign({}, this.configuration.headers, context.headers);
     const init = {
       method: context.method,
       headers: headers,
       body,
-      credentials: this.configuration.credentials
+      credentials: this.configuration.credentials,
     };
     return { url, init };
   }
@@ -97,14 +89,11 @@ export class BaseAPI {
         fetchParams =
           (await middleware.pre({
             fetch: this.fetchApi,
-            ...fetchParams
+            ...fetchParams,
           })) || fetchParams;
       }
     }
-    let response = await this.configuration.fetchApi(
-      fetchParams.url,
-      fetchParams.init
-    );
+    let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init);
     for (const middleware of this.middleware) {
       if (middleware.post) {
         response =
@@ -112,7 +101,7 @@ export class BaseAPI {
             fetch: this.fetchApi,
             url,
             init,
-            response: response.clone()
+            response: response.clone(),
           })) || response;
       }
     }
@@ -132,20 +121,20 @@ export class BaseAPI {
 }
 
 export class RequiredError extends Error {
-  name: "RequiredError" = "RequiredError";
+  name: 'RequiredError' = 'RequiredError';
   constructor(public field: string, msg?: string) {
     super(msg);
   }
 }
 
 export const COLLECTION_FORMATS = {
-  csv: ",",
-  ssv: " ",
-  tsv: "\t",
-  pipes: "|"
+  csv: ',',
+  ssv: ' ',
+  tsv: '\t',
+  pipes: '|',
 };
 
-export type FetchAPI = WindowOrWorkerGlobalScope["fetch"];
+export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
 
 export interface ConfigurationParameters {
   basePath?: string; // override base path
@@ -190,7 +179,7 @@ export class Configuration {
   get apiKey(): ((name: string) => string) | undefined {
     const apiKey = this.configuration.apiKey;
     if (apiKey) {
-      return typeof apiKey === "function" ? apiKey : () => apiKey;
+      return typeof apiKey === 'function' ? apiKey : () => apiKey;
     }
     return undefined;
   }
@@ -198,9 +187,7 @@ export class Configuration {
   get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
     const accessToken = this.configuration.accessToken;
     if (accessToken) {
-      return typeof accessToken === "function"
-        ? accessToken
-        : () => accessToken;
+      return typeof accessToken === 'function' ? accessToken : () => accessToken;
     }
     return undefined;
   }
@@ -215,13 +202,7 @@ export class Configuration {
 }
 
 export type Json = any;
-export type HTTPMethod =
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "PATCH"
-  | "DELETE"
-  | "OPTIONS";
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = {
   [key: string]:
@@ -233,11 +214,7 @@ export type HTTPQuery = {
     | HTTPQuery;
 };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type ModelPropertyNaming =
-  | "camelCase"
-  | "snake_case"
-  | "PascalCase"
-  | "original";
+export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
   url: string;
@@ -257,7 +234,7 @@ export function exists(json: any, key: string) {
   return value !== null && value !== undefined;
 }
 
-export function querystring(params: HTTPQuery, prefix: string = ""): string {
+export function querystring(params: HTTPQuery, prefix: string = ''): string {
   return Object.keys(params)
     .map(key => {
       const fullKey = prefix + (prefix.length ? `[${key}]` : key);
@@ -271,24 +248,19 @@ export function querystring(params: HTTPQuery, prefix: string = ""): string {
       if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
       }
-      return `${encodeURIComponent(fullKey)}=${encodeURIComponent(
-        String(value)
-      )}`;
+      return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
     })
     .filter(part => part.length > 0)
-    .join("&");
+    .join('&');
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
+  return Object.keys(data).reduce((acc, key) => ({ ...acc, [key]: fn(data[key]) }), {});
 }
 
 export function canConsumeForm(consumes: Consume[]): boolean {
   for (const consume of consumes) {
-    if ("multipart/form-data" === consume.contentType) {
+    if ('multipart/form-data' === consume.contentType) {
       return true;
     }
   }
@@ -332,7 +304,7 @@ export class JSONApiResponse<T> {
     private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue
   ) {}
 
-  async value() {
+  async value(): Promise<T> {
     return this.transformer(await this.raw.json());
   }
 }
@@ -340,7 +312,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
   constructor(public raw: Response) {}
 
-  async value() {
+  async value(): Promise<void> {
     return undefined;
   }
 }
@@ -348,7 +320,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
   constructor(public raw: Response) {}
 
-  async value() {
+  async value(): Promise<Blob> {
     return await this.raw.blob();
   }
 }
@@ -356,7 +328,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
   constructor(public raw: Response) {}
 
-  async value() {
+  async value(): Promise<string> {
     return await this.raw.text();
   }
 }
