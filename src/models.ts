@@ -9,6 +9,8 @@ import {
   RequestConsent,
   Response,
   User,
+  GdprConsent,
+  Consent,
 } from './generated/models';
 
 interface Decisions {
@@ -31,4 +33,6 @@ export {
   RequestConsent,
   User,
   TypedResponse as Response,
+  GdprConsent,
+  Consent,
 };
