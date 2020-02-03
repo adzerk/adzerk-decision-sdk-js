@@ -44,6 +44,12 @@ export interface GdprConsentRequest {
   gdprConsent?: GdprConsent;
 }
 
+export interface IpOverrideRequest {
+  networkId: number;
+  azk: string;
+  ip: string;
+}
+
 export interface MatchUserRequest {
   azk: string;
   networkId: number;
@@ -382,6 +388,65 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async gdprConsent(networkId: number, gdprConsent?: GdprConsent): Promise<void> {
     await this.gdprConsentRaw({ networkId: networkId, gdprConsent: gdprConsent });
+  }
+
+  /**
+   * IP Address Override
+   */
+  async ipOverrideRaw(
+    requestParameters: IpOverrideRequest
+  ): Promise<runtime.ApiResponse<object>> {
+    if (
+      requestParameters.networkId === null ||
+      requestParameters.networkId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        'networkId',
+        'Required parameter requestParameters.networkId was null or undefined when calling ipOverride.'
+      );
+    }
+
+    if (requestParameters.azk === null || requestParameters.azk === undefined) {
+      throw new runtime.RequiredError(
+        'azk',
+        'Required parameter requestParameters.azk was null or undefined when calling ipOverride.'
+      );
+    }
+
+    if (requestParameters.ip === null || requestParameters.ip === undefined) {
+      throw new runtime.RequiredError(
+        'ip',
+        'Required parameter requestParameters.ip was null or undefined when calling ipOverride.'
+      );
+    }
+
+    const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.ip !== undefined) {
+      queryParameters['ip'] = requestParameters.ip;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request({
+      path: `/udb/{networkId}/ip/i.gif`.replace(
+        `{${'networkId'}}`,
+        encodeURIComponent(String(requestParameters.networkId))
+      ),
+      method: 'GET',
+      headers: headerParameters,
+      query: queryParameters,
+    });
+
+    return new runtime.JSONApiResponse<any>(response);
+  }
+
+  /**
+   * IP Address Override
+   */
+  async ipOverride(networkId: number, azk: string, ip: string): Promise<object> {
+    const response = await this.ipOverrideRaw({ networkId: networkId, azk: azk, ip: ip });
+    return await response.value();
   }
 
   /**
