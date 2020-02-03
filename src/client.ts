@@ -14,7 +14,7 @@ import {
 import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { inherits } from 'util';
-import { Decisions } from '../lib/models';
+import { Decisions } from '../src/models';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
@@ -39,7 +39,7 @@ export class Client {
   private _path?: string;
 
   constructor(opts: ClientOptions) {
-    let fetch: FetchAPI = opts.fetch || unfetch;
+    let fetch: FetchAPI = (opts.fetch || unfetch).bind(global);
 
     let protocol: string = opts.protocol || 'https';
     let host: string = opts.host || `e-${opts.networkId}.adzerk.net`;
@@ -48,7 +48,7 @@ export class Client {
     this._path = opts.path;
 
     if (typeof process !== 'undefined') {
-      let { Agent } = require('http');
+      let { Agent } = protocol === 'https' ? require('https') : require('http');
       this._agent = new Agent({
         keepAlive: true,
         timeout: 10 * 1000,

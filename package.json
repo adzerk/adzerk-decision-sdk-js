@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
-    "build": "tsc -p ./src",
+    "build": "tsc -p ./src && parcel build src/index.ts --out-dir dist --out-file adzerk-decision-sdk.js --global AdzerkDecisionSdk",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "lint-staged": "^9.4.3",
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
+    "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
