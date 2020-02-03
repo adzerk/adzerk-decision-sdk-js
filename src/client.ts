@@ -137,6 +137,10 @@ class UserDbClient {
     return await this._api.gdprConsent(networkId, gdprConsent);
   }
 
+  async ipOverride(networkId: number, userKey: string, ip: string) {
+    return await this._api.ipOverride(networkId, userKey, ip);
+  }
+
   async matchUser(networkId: number, userKey: string, partnerId: number, userId: number) {
     return await this._api.matchUser(userKey, networkId, partnerId, userId);
   }
