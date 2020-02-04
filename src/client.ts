@@ -209,11 +209,11 @@ export class Client {
     this._userDbClient = new UserDbClient(configuration);
   }
 
-  get Decisions(): DecisionClient {
+  get decisions(): DecisionClient {
     return this._decisionClient;
   }
 
-  get UserDb(): UserDbClient {
+  get userDb(): UserDbClient {
     return this._userDbClient;
   }
 }
