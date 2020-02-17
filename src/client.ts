@@ -14,8 +14,6 @@ import {
 } from './generated';
 import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
-import { inherits } from 'util';
-import { Decisions } from '../src/models';
 import { UserdbApi } from './generated/apis/UserdbApi';
 
 (global as any).FormData = (global as any).FormData || FormData;
@@ -108,7 +106,7 @@ class UserDbClient {
   }
 
   async addCustomProperties(networkId: number, userKey: string, properties: object) {
-    return await this._api.addCustomProperties(userKey, networkId, properties);
+    return await this._api.addCustomProperties(networkId, userKey, properties);
   }
 
   async addInterests(networkId: number, userKey: string, interests: string[]) {
@@ -122,10 +120,10 @@ class UserDbClient {
     retargetingSegmentId: number
   ) {
     return await this._api.addRetargetingSegment(
-      userKey,
       networkId,
       advertiserId,
-      retargetingSegmentId
+      retargetingSegmentId,
+      userKey
     );
   }
 
@@ -142,15 +140,15 @@ class UserDbClient {
   }
 
   async matchUser(networkId: number, userKey: string, partnerId: number, userId: number) {
-    return await this._api.matchUser(userKey, networkId, partnerId, userId);
+    return await this._api.matchUser(networkId, userKey, partnerId, userId);
   }
 
   async optOut(networkId: number, userKey: string) {
-    return await this._api.optOut(userKey, networkId);
+    return await this._api.optOut(networkId, userKey);
   }
 
   async read(networkId: number, userKey: string) {
-    return await this._api.read(userKey, networkId);
+    return await this._api.read(networkId, userKey);
   }
 }
 

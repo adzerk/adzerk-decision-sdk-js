@@ -16,8 +16,8 @@ import * as runtime from '../runtime';
 import { GdprConsent, GdprConsentFromJSON, GdprConsentToJSON } from '../models';
 
 export interface AddCustomPropertiesRequest {
-  azk: string;
   networkId: number;
+  userKey: string;
   body?: object;
 }
 
@@ -28,10 +28,10 @@ export interface AddInterestsRequest {
 }
 
 export interface AddRetargetingSegmentRequest {
-  azk: string;
   networkId: number;
   advertiserId: number;
   retargetingSegmentId: number;
+  userKey: string;
 }
 
 export interface ForgetRequest {
@@ -46,25 +46,25 @@ export interface GdprConsentRequest {
 
 export interface IpOverrideRequest {
   networkId: number;
-  azk: string;
+  userKey: string;
   ip: string;
 }
 
 export interface MatchUserRequest {
-  azk: string;
   networkId: number;
+  userKey: string;
   partnerId: number;
   userId: number;
 }
 
 export interface OptOutRequest {
-  azk: string;
   networkId: number;
+  userKey: string;
 }
 
 export interface ReadRequest {
-  azk: string;
   networkId: number;
+  userKey: string;
 }
 
 export interface SetUserCookieRequest {
@@ -82,13 +82,6 @@ export class UserdbApi extends runtime.BaseAPI {
   async addCustomPropertiesRaw(
     requestParameters: AddCustomPropertiesRequest
   ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
-      throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling addCustomProperties.'
-      );
-    }
-
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -99,7 +92,18 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
+      throw new runtime.RequiredError(
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling addCustomProperties.'
+      );
+    }
+
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -127,11 +131,15 @@ export class UserdbApi extends runtime.BaseAPI {
    * Add Custom Properties to a User
    */
   async addCustomProperties(
-    azk: string,
     networkId: number,
+    userKey: string,
     body?: object
   ): Promise<void> {
-    await this.addCustomPropertiesRaw({ azk: azk, networkId: networkId, body: body });
+    await this.addCustomPropertiesRaw({
+      networkId: networkId,
+      userKey: userKey,
+      body: body,
+    });
   }
 
   /**
@@ -210,13 +218,6 @@ export class UserdbApi extends runtime.BaseAPI {
   async addRetargetingSegmentRaw(
     requestParameters: AddRetargetingSegmentRequest
   ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
-      throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling addRetargetingSegment.'
-      );
-    }
-
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -247,7 +248,18 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
+      throw new runtime.RequiredError(
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling addRetargetingSegment.'
+      );
+    }
+
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -277,16 +289,16 @@ export class UserdbApi extends runtime.BaseAPI {
    * Add User to a Retargeting Segment
    */
   async addRetargetingSegment(
-    azk: string,
     networkId: number,
     advertiserId: number,
-    retargetingSegmentId: number
+    retargetingSegmentId: number,
+    userKey: string
   ): Promise<void> {
     await this.addRetargetingSegmentRaw({
-      azk: azk,
       networkId: networkId,
       advertiserId: advertiserId,
       retargetingSegmentId: retargetingSegmentId,
+      userKey: userKey,
     });
   }
 
@@ -406,10 +418,10 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
       throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling ipOverride.'
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling ipOverride.'
       );
     }
 
@@ -421,6 +433,10 @@ export class UserdbApi extends runtime.BaseAPI {
     }
 
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     if (requestParameters.ip !== undefined) {
       queryParameters['ip'] = requestParameters.ip;
@@ -444,8 +460,12 @@ export class UserdbApi extends runtime.BaseAPI {
   /**
    * IP Address Override
    */
-  async ipOverride(networkId: number, azk: string, ip: string): Promise<object> {
-    const response = await this.ipOverrideRaw({ networkId: networkId, azk: azk, ip: ip });
+  async ipOverride(networkId: number, userKey: string, ip: string): Promise<object> {
+    const response = await this.ipOverrideRaw({
+      networkId: networkId,
+      userKey: userKey,
+      ip: ip,
+    });
     return await response.value();
   }
 
@@ -455,13 +475,6 @@ export class UserdbApi extends runtime.BaseAPI {
   async matchUserRaw(
     requestParameters: MatchUserRequest
   ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
-      throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling matchUser.'
-      );
-    }
-
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -469,6 +482,13 @@ export class UserdbApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         'networkId',
         'Required parameter requestParameters.networkId was null or undefined when calling matchUser.'
+      );
+    }
+
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
+      throw new runtime.RequiredError(
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling matchUser.'
       );
     }
 
@@ -490,6 +510,10 @@ export class UserdbApi extends runtime.BaseAPI {
     }
 
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     if (requestParameters.partnerId !== undefined) {
       queryParameters['partnerId'] = requestParameters.partnerId;
@@ -518,14 +542,14 @@ export class UserdbApi extends runtime.BaseAPI {
    * User Matching
    */
   async matchUser(
-    azk: string,
     networkId: number,
+    userKey: string,
     partnerId: number,
     userId: number
   ): Promise<void> {
     await this.matchUserRaw({
-      azk: azk,
       networkId: networkId,
+      userKey: userKey,
       partnerId: partnerId,
       userId: userId,
     });
@@ -535,13 +559,6 @@ export class UserdbApi extends runtime.BaseAPI {
    * Opt-Out a User
    */
   async optOutRaw(requestParameters: OptOutRequest): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
-      throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling optOut.'
-      );
-    }
-
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -552,7 +569,18 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
+      throw new runtime.RequiredError(
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling optOut.'
+      );
+    }
+
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -572,21 +600,14 @@ export class UserdbApi extends runtime.BaseAPI {
   /**
    * Opt-Out a User
    */
-  async optOut(azk: string, networkId: number): Promise<void> {
-    await this.optOutRaw({ azk: azk, networkId: networkId });
+  async optOut(networkId: number, userKey: string): Promise<void> {
+    await this.optOutRaw({ networkId: networkId, userKey: userKey });
   }
 
   /**
    * Read a User\'s UserDB Record
    */
   async readRaw(requestParameters: ReadRequest): Promise<runtime.ApiResponse<object>> {
-    if (requestParameters.azk === null || requestParameters.azk === undefined) {
-      throw new runtime.RequiredError(
-        'azk',
-        'Required parameter requestParameters.azk was null or undefined when calling read.'
-      );
-    }
-
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -597,7 +618,18 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
+      throw new runtime.RequiredError(
+        'userKey',
+        'Required parameter requestParameters.userKey was null or undefined when calling read.'
+      );
+    }
+
     const queryParameters: runtime.HTTPQuery = {};
+
+    if (requestParameters.userKey !== undefined) {
+      queryParameters['userKey'] = requestParameters.userKey;
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -617,8 +649,8 @@ export class UserdbApi extends runtime.BaseAPI {
   /**
    * Read a User\'s UserDB Record
    */
-  async read(azk: string, networkId: number): Promise<object> {
-    const response = await this.readRaw({ azk: azk, networkId: networkId });
+  async read(networkId: number, userKey: string): Promise<object> {
+    const response = await this.readRaw({ networkId: networkId, userKey: userKey });
     return await response.value();
   }
 
