@@ -110,7 +110,7 @@ class UserDbClient {
   }
 
   async addInterests(networkId: number, userKey: string, interests: string[]) {
-    return await this._api.addInterests(networkId, userKey, interests.join(','));
+    return await this._api.addInterests(networkId, userKey, interests.join(', '));
   }
 
   async addRetargetingSegment(
