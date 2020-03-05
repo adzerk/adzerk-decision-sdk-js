@@ -109,8 +109,8 @@ class UserDbClient {
     return await this._api.addCustomProperties(networkId, userKey, properties);
   }
 
-  async addInterests(networkId: number, userKey: string, interests: string[]) {
-    return await this._api.addInterests(networkId, userKey, interests.join(', '));
+  async addInterest(networkId: number, userKey: string, interest: string) {
+    return await this._api.addInterests(networkId, userKey, interest);
   }
 
   async addRetargetingSegment(
