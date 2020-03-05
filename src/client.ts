@@ -200,6 +200,7 @@ export class Client {
     const configuration = new Configuration({
       basePath,
       fetchApi: fetch,
+      apiKey: opts.apiKey,
       middleware: [...(opts.middlewares || []), middleware],
     });
 
