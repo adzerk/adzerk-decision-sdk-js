@@ -81,7 +81,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async addCustomPropertiesRaw(
     requestParameters: AddCustomPropertiesRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -124,7 +124,7 @@ export class UserdbApi extends runtime.BaseAPI {
       body: requestParameters.body as any,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
@@ -134,12 +134,13 @@ export class UserdbApi extends runtime.BaseAPI {
     networkId: number,
     userKey: string,
     body?: object
-  ): Promise<void> {
-    await this.addCustomPropertiesRaw({
+  ): Promise<Blob> {
+    const response = await this.addCustomPropertiesRaw({
       networkId: networkId,
       userKey: userKey,
       body: body,
     });
+    return await response.value();
   }
 
   /**
@@ -147,7 +148,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async addInterestsRaw(
     requestParameters: AddInterestsRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -194,7 +195,7 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
@@ -204,12 +205,13 @@ export class UserdbApi extends runtime.BaseAPI {
     networkId: number,
     userKey: string,
     interest: string
-  ): Promise<void> {
-    await this.addInterestsRaw({
+  ): Promise<Blob> {
+    const response = await this.addInterestsRaw({
       networkId: networkId,
       userKey: userKey,
       interest: interest,
     });
+    return await response.value();
   }
 
   /**
@@ -217,7 +219,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async addRetargetingSegmentRaw(
     requestParameters: AddRetargetingSegmentRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -282,7 +284,7 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
@@ -293,13 +295,14 @@ export class UserdbApi extends runtime.BaseAPI {
     advertiserId: number,
     retargetingSegmentId: number,
     userKey: string
-  ): Promise<void> {
-    await this.addRetargetingSegmentRaw({
+  ): Promise<Blob> {
+    const response = await this.addRetargetingSegmentRaw({
       networkId: networkId,
       advertiserId: advertiserId,
       retargetingSegmentId: retargetingSegmentId,
       userKey: userKey,
     });
+    return await response.value();
   }
 
   /**
@@ -360,7 +363,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async gdprConsentRaw(
     requestParameters: GdprConsentRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -392,14 +395,18 @@ export class UserdbApi extends runtime.BaseAPI {
       body: GdprConsentToJSON(requestParameters.gdprConsent),
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
    * GDPR Consent
    */
-  async gdprConsent(networkId: number, gdprConsent?: GdprConsent): Promise<void> {
-    await this.gdprConsentRaw({ networkId: networkId, gdprConsent: gdprConsent });
+  async gdprConsent(networkId: number, gdprConsent?: GdprConsent): Promise<Blob> {
+    const response = await this.gdprConsentRaw({
+      networkId: networkId,
+      gdprConsent: gdprConsent,
+    });
+    return await response.value();
   }
 
   /**
@@ -407,7 +414,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async ipOverrideRaw(
     requestParameters: IpOverrideRequest
-  ): Promise<runtime.ApiResponse<object>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -454,13 +461,13 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.JSONApiResponse<any>(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
    * IP Address Override
    */
-  async ipOverride(networkId: number, userKey: string, ip: string): Promise<object> {
+  async ipOverride(networkId: number, userKey: string, ip: string): Promise<Blob> {
     const response = await this.ipOverrideRaw({
       networkId: networkId,
       userKey: userKey,
@@ -474,7 +481,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async matchUserRaw(
     requestParameters: MatchUserRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -535,7 +542,7 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
@@ -546,19 +553,20 @@ export class UserdbApi extends runtime.BaseAPI {
     userKey: string,
     partnerId: number,
     userId: number
-  ): Promise<void> {
-    await this.matchUserRaw({
+  ): Promise<Blob> {
+    const response = await this.matchUserRaw({
       networkId: networkId,
       userKey: userKey,
       partnerId: partnerId,
       userId: userId,
     });
+    return await response.value();
   }
 
   /**
    * Opt-Out a User
    */
-  async optOutRaw(requestParameters: OptOutRequest): Promise<runtime.ApiResponse<void>> {
+  async optOutRaw(requestParameters: OptOutRequest): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -594,14 +602,15 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
    * Opt-Out a User
    */
-  async optOut(networkId: number, userKey: string): Promise<void> {
-    await this.optOutRaw({ networkId: networkId, userKey: userKey });
+  async optOut(networkId: number, userKey: string): Promise<Blob> {
+    const response = await this.optOutRaw({ networkId: networkId, userKey: userKey });
+    return await response.value();
   }
 
   /**
@@ -659,7 +668,7 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async setUserCookieRaw(
     requestParameters: SetUserCookieRequest
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<Blob>> {
     if (
       requestParameters.networkId === null ||
       requestParameters.networkId === undefined
@@ -695,13 +704,17 @@ export class UserdbApi extends runtime.BaseAPI {
       query: queryParameters,
     });
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.BlobApiResponse(response);
   }
 
   /**
    * Set User Cookie
    */
-  async setUserCookie(networkId: number, userKey: string): Promise<void> {
-    await this.setUserCookieRaw({ networkId: networkId, userKey: userKey });
+  async setUserCookie(networkId: number, userKey: string): Promise<Blob> {
+    const response = await this.setUserCookieRaw({
+      networkId: networkId,
+      userKey: userKey,
+    });
+    return await response.value();
   }
 }
