@@ -39,43 +39,9 @@ interface ClientOptions {
 }
 
 class DecisionApi extends BaseDecisionApi {
-  async triggerClick(
-    decision: Decision,
-    revenueOverride?: number,
-    additionalRevenue?: number
-  ): Promise<boolean> {
+  async triggerEvent(url?: string, revenueOverride?: number, additionalRevenue?: number) {
     let response = await this.request(
-      this.buildEventRequest(decision.clickUrl, revenueOverride, additionalRevenue)
-    );
-
-    return response.status === 200;
-  }
-
-  async triggerImpression(
-    decision: Decision,
-    revenueOverride?: number,
-    additionalRevenue?: number
-  ): Promise<boolean> {
-    let response = await this.request(
-      this.buildEventRequest(decision.impressionUrl, revenueOverride, additionalRevenue)
-    );
-
-    return response.status === 200;
-  }
-
-  async triggerEvent(
-    decision: Decision,
-    eventId: number,
-    revenueOverride?: number,
-    additionalRevenue?: number
-  ): Promise<boolean> {
-    let event = decision.events?.filter(e => e.id === eventId);
-    if (!event) {
-      return false;
-    }
-
-    let response = await this.request(
-      this.buildEventRequest(event[0].url, revenueOverride, additionalRevenue)
+      this.buildEventRequest(url, revenueOverride, additionalRevenue)
     );
     return response.status === 200;
   }
@@ -168,6 +134,48 @@ class DecisionClient {
     });
 
     return response as Response;
+  }
+
+  async triggerClick(
+    decision: Decision,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): Promise<boolean> {
+    return await this._api.triggerEvent(
+      decision.clickUrl,
+      revenueOverride,
+      additionalRevenue
+    );
+  }
+
+  async triggerImpression(
+    decision: Decision,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): Promise<boolean> {
+    return await this._api.triggerEvent(
+      decision.impressionUrl,
+      revenueOverride,
+      additionalRevenue
+    );
+  }
+
+  async triggerEvent(
+    decision: Decision,
+    eventId: number,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ) {
+    let matches = decision.events?.filter(e => e.id === eventId);
+    if (!matches) {
+      return false;
+    }
+
+    return await this._api.triggerEvent(
+      matches[0].url,
+      revenueOverride,
+      additionalRevenue
+    );
   }
 }
 
