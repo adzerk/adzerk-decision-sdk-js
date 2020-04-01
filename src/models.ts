@@ -21,11 +21,9 @@ interface TypedResponse extends Response {
   decisions?: Decisions;
 }
 
-class DecisionImplementation implements Decision {}
-
 export {
   Content,
-  DecisionImplementation as Decision,
+  Decision,
   Decisions,
   DecisionData,
   Event,

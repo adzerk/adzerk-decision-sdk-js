@@ -4,7 +4,7 @@ import FormData from 'form-data';
 
 import {
   FetchAPI,
-  DecisionApi,
+  DecisionApi as BaseDecisionApi,
   Configuration,
   FetchParams,
   Middleware,
@@ -12,6 +12,8 @@ import {
   ResponseContext,
   GdprConsent,
   Placement,
+  Decision,
+  RequestOpts,
 } from './generated';
 import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
@@ -36,6 +38,69 @@ interface ClientOptions {
   apiKey?: string;
 }
 
+class DecisionApi extends BaseDecisionApi {
+  async triggerClick(
+    decision: Decision,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): Promise<boolean> {
+    let response = await this.request(
+      this.buildEventRequest(decision.clickUrl, revenueOverride, additionalRevenue)
+    );
+
+    return response.status === 200;
+  }
+
+  async triggerImpression(
+    decision: Decision,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): Promise<boolean> {
+    let response = await this.request(
+      this.buildEventRequest(decision.impressionUrl, revenueOverride, additionalRevenue)
+    );
+
+    return response.status === 200;
+  }
+
+  async triggerEvent(
+    decision: Decision,
+    eventId: number,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): Promise<boolean> {
+    let event = decision.events?.filter(e => e.id === eventId);
+    if (!event) {
+      return false;
+    }
+
+    let response = await this.request(
+      this.buildEventRequest(event[0].url, revenueOverride, additionalRevenue)
+    );
+    return response.status === 200;
+  }
+
+  private buildEventRequest(
+    url?: string,
+    revenueOverride?: number,
+    additionalRevenue?: number
+  ): RequestOpts {
+    let parsed = new URL(url || '');
+    if (revenueOverride) {
+      parsed.searchParams.append('override', revenueOverride.toString());
+    }
+    if (additionalRevenue) {
+      parsed.searchParams.append('additional', additionalRevenue.toString());
+    }
+
+    return {
+      path: `${parsed.pathname}${parsed.search}`,
+      method: 'GET',
+      headers: {},
+    };
+  }
+}
+
 class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
@@ -52,9 +117,10 @@ class DecisionClient {
     log('Processing request: %o', request);
     let processedRequest: Request = removeUndefinedAndBlocklisted(request);
 
-    processedRequest.placements.forEach((p: Placement) => {
+    processedRequest.placements.forEach((p: Placement, idx: number) => {
       p.networkId = p.networkId || this._networkId;
       p.siteId = p.siteId || this._siteId;
+      p.divName = p.divName || `div${idx}`;
     });
 
     log('Using the processed request: %o', processedRequest);
@@ -118,7 +184,7 @@ class UserDbClient {
     return await this._api.setUserCookie(networkId || this._networkId, userKey);
   }
 
-  async addCustomProperties(userKey: string, properties: object, networkId?: number) {
+  async setCustomProperties(userKey: string, properties: object, networkId?: number) {
     return await this._api.addCustomProperties(
       networkId || this._networkId,
       userKey,
