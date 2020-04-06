@@ -249,7 +249,10 @@ test("client makes explanation request with proper headers", async () => {
     fetch: fetch as any
   });
 
-  await client.decisions.getWithExplanation({ placements: [] }, "abc123");
+  await client.decisions.get(
+    { placements: [] },
+    { includeExplanation: true, apiKey: "abc123" }
+  );
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][1]["headers"]["x-adzerk-explain"]).toBe("abc123");
@@ -263,9 +266,30 @@ test("client makes subsequent decision requests after explanation", async () => 
     fetch: fetch as any
   });
 
-  await client.decisions.getWithExplanation({ placements: [] }, "abc123");
+  await client.decisions.get(
+    { placements: [] },
+    { includeExplanation: true, apiKey: "abc123" }
+  );
   await client.decisions.get({ placements: [] });
 
   expect(fetch.mock.calls.length).toBe(2);
   expect(fetch.mock.calls[1][1]["headers"]["x-adzerk-explain"]).toBeUndefined();
+});
+
+test("client allows user-agent to be overriden per request", async () => {
+  let response = {};
+  let fetch = buildFetchMock(response);
+  let client = new Client({
+    networkId: 23,
+    fetch: fetch as any
+  });
+
+  await client.decisions.get(
+    { placements: [] },
+    { userAgent: "some crazy user agent" }
+  );
+  expect(fetch.mock.calls.length).toBe(1);
+  expect(fetch.mock.calls[0][1]["headers"]["User-Agent"]).toBe(
+    "some crazy user agent"
+  );
 });
