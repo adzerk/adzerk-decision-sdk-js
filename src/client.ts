@@ -198,7 +198,7 @@ class PixelClient {
       parsed.searchParams.append('additional', params.additionalRevenue.toString());
     }
 
-    return `${parsed.pathname}${parsed.search}`;
+    return parsed.href;
   }
 
   async trigger(
