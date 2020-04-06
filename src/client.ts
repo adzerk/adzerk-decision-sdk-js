@@ -201,7 +201,10 @@ class PixelClient {
     return `${parsed.pathname}${parsed.search}`;
   }
 
-  async trigger(params: PixelFireOptions, additionalOpts?: AdditionalOptions) {
+  async trigger(
+    params: PixelFireOptions,
+    additionalOpts?: AdditionalOptions
+  ): Promise<boolean> {
     let opts: any = {
       method: 'GET',
       headers: {
@@ -216,7 +219,9 @@ class PixelClient {
       opts.agent = this._agent;
     }
 
-    return await this._fetch(url, opts);
+    let result = await this._fetch(url, opts);
+
+    return result.status === 200;
   }
 }
 
