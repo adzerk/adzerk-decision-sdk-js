@@ -12,6 +12,8 @@ import {
   ResponseContext,
   GdprConsent,
   Placement,
+  Decision,
+  RequestOpts,
 } from './generated';
 import { Request, Response } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
@@ -36,6 +38,18 @@ interface ClientOptions {
   apiKey?: string;
 }
 
+interface PixelFireOptions {
+  url: string;
+  revenueOverride?: number;
+  additionalRevenue?: number;
+}
+
+interface AdditionalOptions {
+  userAgent?: string;
+  includeExplanation?: boolean;
+  apiKey?: string;
+}
+
 class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
@@ -47,50 +61,37 @@ class DecisionClient {
     this._siteId = siteId;
   }
 
-  async get(request: Request): Promise<Response> {
+  async get(request: Request, additionalOpts?: AdditionalOptions): Promise<Response> {
     log('Fetching decisions from Adzerk API');
     log('Processing request: %o', request);
     let processedRequest: Request = removeUndefinedAndBlocklisted(request);
 
-    processedRequest.placements.forEach((p: Placement) => {
+    processedRequest.placements.forEach((p: Placement, idx: number) => {
       p.networkId = p.networkId || this._networkId;
       p.siteId = p.siteId || this._siteId;
+      p.divName = p.divName || `div${idx}`;
     });
 
-    log('Using the processed request: %o', processedRequest);
-    let response = await this._api.getDecisions(processedRequest);
-
-    log('Received response: %o', response);
-    let decisions: any = response.decisions || {};
-
-    Object.keys(decisions).forEach((k: string) => {
-      if (!isDecisionMultiWinner(decisions[k])) {
-        decisions[k] = [decisions[k]];
-      }
-    });
-
-    return response as Response;
-  }
-
-  async getWithExplanation(request: Request, apiKey: string): Promise<Response> {
-    log('Fetching decisions with explanations from Adzerk API');
-    log('Processing request: %o', request);
-    let processedRequest = removeUndefinedAndBlocklisted(request);
-
-    log('Using the processed request: %o', processedRequest);
-    let response = await this._api
-      .withPreMiddleware(
+    let api: DecisionApi = this._api;
+    if (!!additionalOpts?.includeExplanation || !!additionalOpts?.userAgent) {
+      api = api.withPreMiddleware(
         async (context: RequestContext): Promise<FetchParams | void> => {
-          if (context.init.headers == undefined) {
+          if (!context.init.headers) {
             context.init.headers = {};
           }
           let headers = context.init.headers as Record<string, string>;
-          headers['x-adzerk-explain'] = apiKey;
-
-          return context;
+          if (!!additionalOpts.includeExplanation) {
+            headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
+          }
+          if (!!additionalOpts.userAgent) {
+            headers['User-Agent'] = additionalOpts.userAgent || '';
+          }
         }
-      )
-      .getDecisions(processedRequest);
+      );
+    }
+
+    log('Using the processed request: %o', processedRequest);
+    let response = await api.getDecisions(processedRequest);
 
     log('Received response: %o', response);
     let decisions: any = response.decisions || {};
@@ -118,7 +119,7 @@ class UserDbClient {
     return await this._api.setUserCookie(networkId || this._networkId, userKey);
   }
 
-  async addCustomProperties(userKey: string, properties: object, networkId?: number) {
+  async setCustomProperties(userKey: string, properties: object, networkId?: number) {
     return await this._api.addCustomProperties(
       networkId || this._networkId,
       userKey,
@@ -179,9 +180,55 @@ class UserDbClient {
   }
 }
 
+class PixelClient {
+  private _fetch: FetchAPI;
+  private _agent: any;
+
+  constructor(fetch: FetchAPI, agent: any) {
+    this._fetch = fetch;
+    this._agent = agent;
+  }
+
+  private buildFireUrl(params: PixelFireOptions): string {
+    let parsed = new URL(params.url);
+    if (params.revenueOverride) {
+      parsed.searchParams.append('override', params.revenueOverride.toString());
+    }
+    if (params.additionalRevenue) {
+      parsed.searchParams.append('additional', params.additionalRevenue.toString());
+    }
+
+    return parsed.href;
+  }
+
+  async fire(
+    params: PixelFireOptions,
+    additionalOpts?: AdditionalOptions
+  ): Promise<boolean> {
+    let opts: any = {
+      method: 'GET',
+      headers: {
+        'X-Adzerk-Sdk-Version': 'adzerk-decision-sdk-js:v1',
+        'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
+      },
+    };
+
+    let url: string = this.buildFireUrl(params);
+
+    if (!!this._agent) {
+      opts.agent = this._agent;
+    }
+
+    let result = await this._fetch(url, opts);
+
+    return result.status === 200;
+  }
+}
+
 export class Client {
   private _decisionClient: DecisionClient;
   private _userDbClient: UserDbClient;
+  private _pixelClient: PixelClient;
   private _agent: any;
   private _path?: string;
 
@@ -233,6 +280,7 @@ export class Client {
 
     this._decisionClient = new DecisionClient(configuration, opts.networkId, opts.siteId);
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
+    this._pixelClient = new PixelClient(fetch, this._agent);
   }
 
   get decisions(): DecisionClient {
@@ -241,5 +289,9 @@ export class Client {
 
   get userDb(): UserDbClient {
     return this._userDbClient;
+  }
+
+  get pixels(): PixelClient {
+    return this._pixelClient;
   }
 }
