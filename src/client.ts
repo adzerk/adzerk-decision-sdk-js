@@ -189,7 +189,7 @@ class PixelClient {
     this._agent = agent;
   }
 
-  private buildTriggerUrl(params: PixelFireOptions): string {
+  private buildFireUrl(params: PixelFireOptions): string {
     let parsed = new URL(params.url);
     if (params.revenueOverride) {
       parsed.searchParams.append('override', params.revenueOverride.toString());
@@ -201,7 +201,7 @@ class PixelClient {
     return parsed.href;
   }
 
-  async trigger(
+  async fire(
     params: PixelFireOptions,
     additionalOpts?: AdditionalOptions
   ): Promise<boolean> {
@@ -213,7 +213,7 @@ class PixelClient {
       },
     };
 
-    let url: string = this.buildTriggerUrl(params);
+    let url: string = this.buildFireUrl(params);
 
     if (!!this._agent) {
       opts.agent = this._agent;
