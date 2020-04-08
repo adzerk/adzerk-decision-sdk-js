@@ -18,34 +18,37 @@ import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from './';
 /**
  *
  * @export
- * @interface Response
+ * @interface DecisionResponse
  */
-export interface Response {
+export interface DecisionResponse {
   /**
    *
    * @type {User}
-   * @memberof Response
+   * @memberof DecisionResponse
    */
   user?: User;
   /**
    *
    * @type {object}
-   * @memberof Response
+   * @memberof DecisionResponse
    */
   decisions?: object;
   /**
    *
    * @type {object}
-   * @memberof Response
+   * @memberof DecisionResponse
    */
   explain?: object;
 }
 
-export function ResponseFromJSON(json: any): Response {
-  return ResponseFromJSONTyped(json, false);
+export function DecisionResponseFromJSON(json: any): DecisionResponse {
+  return DecisionResponseFromJSONTyped(json, false);
 }
 
-export function ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Response {
+export function DecisionResponseFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean
+): DecisionResponse {
   if (json === undefined || json === null) {
     return json;
   }
@@ -56,7 +59,7 @@ export function ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
   };
 }
 
-export function ResponseToJSON(value?: Response | null): any {
+export function DecisionResponseToJSON(value?: DecisionResponse | null): any {
   if (value === undefined) {
     return undefined;
   }

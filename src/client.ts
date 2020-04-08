@@ -10,12 +10,9 @@ import {
   Middleware,
   RequestContext,
   ResponseContext,
-  GdprConsent,
   Placement,
-  Decision,
-  RequestOpts,
 } from './generated';
-import { Request, Response } from './models';
+import { DecisionRequest, DecisionResponse } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { UserdbApi } from './generated/apis/UserdbApi';
 
@@ -61,10 +58,15 @@ class DecisionClient {
     this._siteId = siteId;
   }
 
-  async get(request: Request, additionalOpts?: AdditionalOptions): Promise<Response> {
+  async get(
+    request: DecisionRequest,
+    additionalOpts?: AdditionalOptions
+  ): Promise<DecisionResponse> {
     log('Fetching decisions from Adzerk API');
     log('Processing request: %o', request);
-    let processedRequest: Request = removeUndefinedAndBlocklisted(request);
+    let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
+      'isMobile',
+    ]);
 
     processedRequest.placements.forEach((p: Placement, idx: number) => {
       p.networkId = p.networkId || this._networkId;
@@ -91,7 +93,7 @@ class DecisionClient {
     }
 
     log('Using the processed request: %o', processedRequest);
-    let response = await api.getDecisions(processedRequest);
+    let response = await api.getDecisions(processedRequest as any);
 
     log('Received response: %o', response);
     let decisions: any = response.decisions || {};
@@ -102,7 +104,7 @@ class DecisionClient {
       }
     });
 
-    return response as Response;
+    return response as DecisionResponse;
   }
 }
 
@@ -149,7 +151,7 @@ class UserDbClient {
     return await this._api.forget(networkId || this._networkId, userKey);
   }
 
-  async gdprConsent(gdprConsent: GdprConsent, networkId?: number) {
+  async gdprConsent(gdprConsent: object, networkId?: number) {
     return await this._api.gdprConsent(networkId || this._networkId, gdprConsent);
   }
 

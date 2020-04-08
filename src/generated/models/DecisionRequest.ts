@@ -18,10 +18,6 @@ import {
   PlacementFromJSON,
   PlacementFromJSONTyped,
   PlacementToJSON,
-  RequestConsent,
-  RequestConsentFromJSON,
-  RequestConsentFromJSONTyped,
-  RequestConsentToJSON,
   User,
   UserFromJSON,
   UserFromJSONTyped,
@@ -31,100 +27,103 @@ import {
 /**
  *
  * @export
- * @interface Request
+ * @interface DecisionRequest
  */
-export interface Request {
+export interface DecisionRequest {
   /**
    * One or more Placement objects
    * @type {Array<Placement>}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   placements: Array<Placement>;
   /**
    *
    * @type {User}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   user?: User;
   /**
    * Keywords for keyword Targeting. Such as `\"keywords\": [\"foo\", \"bar\", \"baz\"]`.
    * @type {Array<string>}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   keywords?: Array<string> | null;
   /**
    * The current page URL
    * @type {string}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   url?: string | null;
   /**
    * The referrer URL
    * @type {string}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   referrer?: string | null;
   /**
    * The IP address. Required for [Geo-Targeting](https://dev.adzerk.com/docs/geo-location)
    * @type {string}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   ip?: string | null;
   /**
    * Numeric creative ids to disregard for ad selection
    * @type {Array<number>}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   blockedCreatives?: Array<number> | null;
   /**
    * If true, only ads containing a single image will be returned
    * @type {boolean}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   isMobile?: boolean | null;
   /**
    * If true, return pricing data for the decision in the response
    * @type {boolean}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   includePricingData?: boolean | null;
   /**
    * If true, only return ads that are set to honor Do Not Track
    * @type {boolean}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   notrack?: boolean | null;
   /**
    * If making a client-side request, set to true. Defaults to false to ensure a server isn\'t seen as a bot. See [here](https://dev.adzerk.com/docs/tracking-overview#section-bot-filtering) for more info
    * @type {boolean}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   enableBotFiltering?: boolean | null;
   /**
    * If true, override the IP address of the request with the IP address supplied on the UserKey. If no IP address is found on the UserKey, this will fall back to the IP address on the request. Requires UserDB
    * @type {boolean}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   enableUserDBIP?: boolean | null;
   /**
-   *
-   * @type {RequestConsent}
-   * @memberof Request
+   * Object that sets the data consent preferences. Other consent settings are available in the GDPR settings documentation.
+   * @type {object}
+   * @memberof DecisionRequest
    */
-  consent?: RequestConsent | null;
+  consent?: object | null;
   /**
    * RTB requests only - sets an Identifier for Advertisers (IFA or IDFA)
    * @type {string}
-   * @memberof Request
+   * @memberof DecisionRequest
    */
   deviceID?: string | null;
 }
 
-export function RequestFromJSON(json: any): Request {
-  return RequestFromJSONTyped(json, false);
+export function DecisionRequestFromJSON(json: any): DecisionRequest {
+  return DecisionRequestFromJSONTyped(json, false);
 }
 
-export function RequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): Request {
+export function DecisionRequestFromJSONTyped(
+  json: any,
+  ignoreDiscriminator: boolean
+): DecisionRequest {
   if (json === undefined || json === null) {
     return json;
   }
@@ -147,14 +146,12 @@ export function RequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): R
       ? undefined
       : json['enableBotFiltering'],
     enableUserDBIP: !exists(json, 'enableUserDBIP') ? undefined : json['enableUserDBIP'],
-    consent: !exists(json, 'consent')
-      ? undefined
-      : RequestConsentFromJSON(json['consent']),
+    consent: !exists(json, 'consent') ? undefined : json['consent'],
     deviceID: !exists(json, 'deviceID') ? undefined : json['deviceID'],
   };
 }
 
-export function RequestToJSON(value?: Request | null): any {
+export function DecisionRequestToJSON(value?: DecisionRequest | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -174,7 +171,7 @@ export function RequestToJSON(value?: Request | null): any {
     notrack: value.notrack,
     enableBotFiltering: value.enableBotFiltering,
     enableUserDBIP: value.enableUserDBIP,
-    consent: RequestConsentToJSON(value.consent),
+    consent: value.consent,
     deviceID: value.deviceID,
   };
 }
