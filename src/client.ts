@@ -188,6 +188,7 @@ class UserDbClient {
       advertiserViewTimes = undefined,
       flightViewTimes = undefined,
       siteViewTimes = undefined,
+      campaignViewTimes = undefined,
       pendingConversions = undefined,
       campaignConversions = undefined,
       ...rest
