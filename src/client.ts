@@ -178,7 +178,17 @@ class UserDbClient {
   }
 
   async read(userKey: string, networkId?: number) {
-    return await this._api.read(networkId || this._networkId, userKey);
+    let record: any = await this._api.read(networkId || this._networkId, userKey);
+    delete record.cookieMonster;
+    delete record.dirtyCookies;
+    delete record.isNew;
+    delete record.adViewTimes;
+    delete record.advertiserViewTimes;
+    delete record.flightViewTimes;
+    delete record.siteViewTimes;
+    delete record.pendingConversions;
+
+    return record;
   }
 }
 
