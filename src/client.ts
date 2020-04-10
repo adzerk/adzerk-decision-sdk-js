@@ -179,16 +179,21 @@ class UserDbClient {
 
   async read(userKey: string, networkId?: number) {
     let record: any = await this._api.read(networkId || this._networkId, userKey);
-    delete record.cookieMonster;
-    delete record.dirtyCookies;
-    delete record.isNew;
-    delete record.adViewTimes;
-    delete record.advertiserViewTimes;
-    delete record.flightViewTimes;
-    delete record.siteViewTimes;
-    delete record.pendingConversions;
 
-    return record;
+    let {
+      _cookieMonster = undefined,
+      _dirtyCookies = undefined,
+      _isNew = undefined,
+      _adViewTimes = undefined,
+      _advertiserViewTimes = undefined,
+      _flightViewTimes = undefined,
+      _siteViewTimes = undefined,
+      _pendingConversions = undefined,
+      _campaignConversions = undefined,
+      ...rest
+    } = record;
+
+    return rest;
   }
 }
 
