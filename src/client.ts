@@ -181,15 +181,15 @@ class UserDbClient {
     let record: any = await this._api.read(networkId || this._networkId, userKey);
 
     let {
-      _cookieMonster = undefined,
-      _dirtyCookies = undefined,
-      _isNew = undefined,
-      _adViewTimes = undefined,
-      _advertiserViewTimes = undefined,
-      _flightViewTimes = undefined,
-      _siteViewTimes = undefined,
-      _pendingConversions = undefined,
-      _campaignConversions = undefined,
+      cookieMonster = undefined,
+      dirtyCookies = undefined,
+      isNew = undefined,
+      adViewTimes = undefined,
+      advertiserViewTimes = undefined,
+      flightViewTimes = undefined,
+      siteViewTimes = undefined,
+      pendingConversions = undefined,
+      campaignConversions = undefined,
       ...rest
     } = record;
 
