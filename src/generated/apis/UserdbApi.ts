@@ -13,7 +13,6 @@
  */
 
 import * as runtime from '../runtime';
-import { GdprConsent, GdprConsentFromJSON, GdprConsentToJSON } from '../models';
 
 export interface AddCustomPropertiesRequest {
   networkId: number;
@@ -41,7 +40,7 @@ export interface ForgetRequest {
 
 export interface GdprConsentRequest {
   networkId: number;
-  gdprConsent?: GdprConsent;
+  body?: object;
 }
 
 export interface IpOverrideRequest {
@@ -392,7 +391,7 @@ export class UserdbApi extends runtime.BaseAPI {
       method: 'POST',
       headers: headerParameters,
       query: queryParameters,
-      body: GdprConsentToJSON(requestParameters.gdprConsent),
+      body: requestParameters.body as any,
     });
 
     return new runtime.BlobApiResponse(response);
@@ -401,11 +400,8 @@ export class UserdbApi extends runtime.BaseAPI {
   /**
    * GDPR Consent
    */
-  async gdprConsent(networkId: number, gdprConsent?: GdprConsent): Promise<Blob> {
-    const response = await this.gdprConsentRaw({
-      networkId: networkId,
-      gdprConsent: gdprConsent,
-    });
+  async gdprConsent(networkId: number, body?: object): Promise<Blob> {
+    const response = await this.gdprConsentRaw({ networkId: networkId, body: body });
     return await response.value();
   }
 

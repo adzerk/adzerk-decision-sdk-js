@@ -13,10 +13,17 @@
  */
 
 import * as runtime from '../runtime';
-import { Response, ResponseFromJSON, ResponseToJSON } from '../models';
+import {
+  DecisionRequest,
+  DecisionRequestFromJSON,
+  DecisionRequestToJSON,
+  DecisionResponse,
+  DecisionResponseFromJSON,
+  DecisionResponseToJSON,
+} from '../models';
 
 export interface GetDecisionsRequest {
-  body?: object;
+  decisionRequest?: DecisionRequest;
 }
 
 /**
@@ -28,7 +35,7 @@ export class DecisionApi extends runtime.BaseAPI {
    */
   async getDecisionsRaw(
     requestParameters: GetDecisionsRequest
-  ): Promise<runtime.ApiResponse<Response>> {
+  ): Promise<runtime.ApiResponse<DecisionResponse>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -40,19 +47,19 @@ export class DecisionApi extends runtime.BaseAPI {
       method: 'POST',
       headers: headerParameters,
       query: queryParameters,
-      body: requestParameters.body as any,
+      body: DecisionRequestToJSON(requestParameters.decisionRequest),
     });
 
     return new runtime.JSONApiResponse(response, jsonValue =>
-      ResponseFromJSON(jsonValue)
+      DecisionResponseFromJSON(jsonValue)
     );
   }
 
   /**
    * Request Decision(s)
    */
-  async getDecisions(body?: object): Promise<Response> {
-    const response = await this.getDecisionsRaw({ body: body });
+  async getDecisions(decisionRequest?: DecisionRequest): Promise<DecisionResponse> {
+    const response = await this.getDecisionsRaw({ decisionRequest: decisionRequest });
     return await response.value();
   }
 }
