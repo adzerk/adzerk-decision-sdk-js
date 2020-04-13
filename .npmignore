@@ -63,3 +63,5 @@ typings/
 .github
 .cache
 .vscode
+
+src
