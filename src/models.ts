@@ -6,7 +6,6 @@ import {
   Placement,
   PricingData,
   User,
-  Consent,
   DecisionResponse,
 } from './generated/models';
 
@@ -45,5 +44,4 @@ export {
   DecisionRequest,
   User,
   TypedResponse as DecisionResponse,
-  Consent,
 };

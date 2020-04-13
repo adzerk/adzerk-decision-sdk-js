@@ -1,4 +1,3 @@
-export * from './Consent';
 export * from './Content';
 export * from './Decision';
 export * from './DecisionData';
