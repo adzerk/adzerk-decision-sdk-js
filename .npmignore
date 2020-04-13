@@ -66,3 +66,5 @@ typings/
 
 src
 test
+jest.config
+tsconfig.json
