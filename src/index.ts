@@ -1,6 +1,6 @@
 import { Client } from './client';
-import { AdType, EventType } from './enums';
 
-let Enums = { AdType, EventType };
+export * from './enums';
+export * from './models';
 
-export { Client, Enums };
+export { Client };
