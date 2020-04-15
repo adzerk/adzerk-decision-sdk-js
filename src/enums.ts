@@ -64,7 +64,7 @@ export enum RateType {
   Flat = 1,
   CPM = 2,
   CPC = 3,
-  CPA_View = 4,
-  CPA_Click = 5,
-  CPA_ViewAndClick = 6,
+  CPAView = 4,
+  CPAClick = 5,
+  CPAViewAndClick = 6,
 }
