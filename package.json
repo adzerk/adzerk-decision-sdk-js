@@ -1,6 +1,6 @@
 {
-  "name": "adzerk-decision-sdk",
-  "version": "1.0.0",
+  "name": "@adzerk/decision-sdk",
+  "version": "1.0.0-alpha.1",
   "description": "SDK for interacting with Adzerk's Decision API",
   "main": "lib/index.js",
   "scripts": {
@@ -53,5 +53,8 @@
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
