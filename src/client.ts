@@ -47,6 +47,11 @@ interface AdditionalOptions {
   apiKey?: string;
 }
 
+interface PixelFireResponse {
+  status: number;
+  location?: string;
+}
+
 class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
@@ -222,13 +227,14 @@ class PixelClient {
   async fire(
     params: PixelFireOptions,
     additionalOpts?: AdditionalOptions
-  ): Promise<boolean> {
+  ): Promise<PixelFireResponse> {
     let opts: any = {
       method: 'GET',
       headers: {
         'X-Adzerk-Sdk-Version': 'adzerk-decision-sdk-js:v1',
         'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
       },
+      redirect: 'manual',
     };
 
     let url: string = this.buildFireUrl(params);
@@ -239,7 +245,12 @@ class PixelClient {
 
     let result = await this._fetch(url, opts);
 
-    return result.status === 200;
+    return {
+      status: result.status,
+      location: result.headers.has('location')
+        ? (result.headers.get('location') as string)
+        : undefined,
+    };
   }
 }
 
