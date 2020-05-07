@@ -15,6 +15,7 @@ import {
 import { DecisionRequest, DecisionResponse } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { UserdbApi } from './generated/apis/UserdbApi';
+import { RequiredError } from './generated/runtime';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
@@ -72,6 +73,10 @@ class DecisionClient {
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
       'isMobile',
     ]);
+
+    if (processedRequest.placements.length === 0) {
+      throw new RequiredError('placements', 'At least one placement is required.');
+    }
 
     processedRequest.placements.forEach((p: Placement, idx: number) => {
       p.networkId = p.networkId || this._networkId;
