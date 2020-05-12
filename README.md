@@ -40,7 +40,8 @@ Using a fixed version:
 
 ## Documentation
 
-(full documentation link)
+- [Adzerk API Documentation](https://dev.adzerk.com/reference)
+- [Adzerk User & Developer Documentation](https://dev.adzerk.com/docs)
 
 ## Contributing
 
