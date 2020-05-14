@@ -1,25 +1,58 @@
-# Adzerk Decision JavaScript / TypeScript SDK
+# Adzerk Decision JavaScript SDK
 
-## Building / Running Tests
+Client & Server-side JavaScript SDK for Adzerk Decision & UserDB APIs. Usable as TypeScript or JavaScript.
+
+## Installation
+
+### Server-Side via NPM
+
+Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
+
+```shell
+npm install @adzerk/decision-sdk
+```
+
+### Client-Side via CDN
+
+Always fetches the latest version:
+
+```html
+<script src="https://unpkg.com/@adzerk/decision-sdk/dist/adzerk-decision-sdk.js"></script>
+```
+
+Using a fixed version:
+
+```html
+<script src="https://unpkg.com/@adzerk/decision-sdk@1.0.0-alpha.1/dist/adzerk-decision-sdk.js"></script>
+```
+
+## Examples
+
+(getting API credentials)
+
+(ad request)
+
+(userDB read)
+
+(userDB set properties)
+
+(logging)
+
+## Documentation
+
+- [Adzerk API Documentation](https://dev.adzerk.com/reference)
+- [Adzerk User & Developer Documentation](https://dev.adzerk.com/docs)
+
+## Contributing
+
+### Reporting Issues
+
+(push towards opening issues with github)
+
+### Building / Running Tests
 
 ```
 npm install
 npm run build
 npm run test
 ```
-
-## Client-Side Public Links
-
-Adzerk publishes the client-side JavaScript Decision SDK using the [UNPKG](https://unpkg.com/) delivery network. Each time we publish a new version of the SDK to NPM the following links are updated. These links are suitable for use in HTML `<script>` tags.
-
-Using a fixed version:
-
-- https://unpkg.com/@adzerk/decision-sdk@1.0.0-alpha.1/dist/adzerk-decision-sdk.js
-
-Using a "bare" file path will always fetch the latest version:
-
-- https://unpkg.com/@adzerk/decision-sdk/dist/adzerk-decision-sdk.js
-
-Additionally, you can see the contents of the NPM package and the currently published versions by following this link in your browser:
-
-- https://unpkg.com/browse/@adzerk/decision-sdk/
