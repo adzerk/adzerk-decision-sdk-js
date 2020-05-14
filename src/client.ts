@@ -74,11 +74,14 @@ class DecisionClient {
       'isMobile',
     ]);
 
-    if (processedRequest.placements.length === 0) {
-      throw new RequiredError('placements', 'At least one placement is required.');
-    }
-
     processedRequest.placements.forEach((p: Placement, idx: number) => {
+      if (p.adTypes === undefined || p.adTypes.length === 0) {
+        throw new RequiredError(
+          'placements',
+          'Each placement requires at least one ad type'
+        );
+      }
+
       p.networkId = p.networkId || this._networkId;
       p.siteId = p.siteId || this._siteId;
       p.divName = p.divName || `div${idx}`;
