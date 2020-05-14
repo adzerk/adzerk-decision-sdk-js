@@ -56,7 +56,7 @@ test("client obeys a protocol override", async () => {
     protocol: "http"
   });
 
-  await client.decisions.get({ placements: [{}] });
+  await client.decisions.get({ placements: [{ adTypes: [1] }] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("http://e-23.adzerk.net/api/v2");
@@ -70,7 +70,7 @@ test("client obeys a host override", async () => {
     host: "ads.some.com"
   });
 
-  await client.decisions.get({ placements: [{}] });
+  await client.decisions.get({ placements: [{ adTypes: [1] }] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("https://ads.some.com/api/v2");
@@ -84,7 +84,7 @@ test("client obeys a path override", async () => {
     path: "/some/crazy/proxy"
   });
 
-  await client.decisions.get({ placements: [{}] });
+  await client.decisions.get({ placements: [{ adTypes: [1] }] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe(
@@ -102,7 +102,7 @@ test("client allows a full url override", async () => {
     path: "/some/crazy/proxy"
   });
 
-  let result = await client.decisions.get({ placements: [{}] });
+  let result = await client.decisions.get({ placements: [{ adTypes: [1] }] });
 
   expect(fetch.mock.calls.length).toBe(1);
   expect(fetch.mock.calls[0][0]).toBe("http://ads.some.com/some/crazy/proxy");
@@ -250,7 +250,7 @@ test("client makes explanation request with proper headers", async () => {
   });
 
   await client.decisions.get(
-    { placements: [{}] },
+    { placements: [{ adTypes: [1] }] },
     { includeExplanation: true, apiKey: "abc123" }
   );
 
@@ -267,10 +267,10 @@ test("client makes subsequent decision requests after explanation", async () => 
   });
 
   await client.decisions.get(
-    { placements: [{}] },
+    { placements: [{ adTypes: [1] }] },
     { includeExplanation: true, apiKey: "abc123" }
   );
-  await client.decisions.get({ placements: [{}] });
+  await client.decisions.get({ placements: [{ adTypes: [1] }] });
 
   expect(fetch.mock.calls.length).toBe(2);
   expect(fetch.mock.calls[1][1]["headers"]["x-adzerk-explain"]).toBeUndefined();
@@ -285,7 +285,7 @@ test("client allows user-agent to be overriden per request", async () => {
   });
 
   await client.decisions.get(
-    { placements: [{}] },
+    { placements: [{ adTypes: [1] }] },
     { userAgent: "some crazy user agent" }
   );
   expect(fetch.mock.calls.length).toBe(1);
