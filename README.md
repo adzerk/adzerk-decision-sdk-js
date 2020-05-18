@@ -1,6 +1,8 @@
 # Adzerk Decision JavaScript SDK
 
-Client & Server-side JavaScript SDK for Adzerk Decision & UserDB APIs. Usable as TypeScript or JavaScript.
+JavaScript SDK for Adzerk Decision & UserDB APIs
+
+Usable client or server-side as TypeScript or JavaScript!
 
 ## Installation
 
@@ -10,6 +12,14 @@ Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
 
 ```shell
 npm install @adzerk/decision-sdk
+```
+
+Or in your package.json file:
+
+```javascript
+"dependencies": {
+  "@adzerk/decision-sdk": "^1.0.0-alpha.1"
+}
 ```
 
 ### Client-Side via CDN
@@ -98,9 +108,12 @@ TBD: .......
 
 ### Reporting Issues
 
-(push towards opening issues with github)
+- For bug fixes and improvements to this SDK please use Github to [open an issue](https://github.com/adzerk/adzerk-decision-sdk-js/issues) or send us a [pull request](https://github.com/adzerk/adzerk-decision-sdk-js/pulls).
+- For questions or issues regarding Adzerk functionality, please [contact Adzerk support](https://adzerk.com/help/).
 
 ### Building / Running Tests
+
+To install dependencies and run the builds associated with this SDK, please use:
 
 ```
 npm install
