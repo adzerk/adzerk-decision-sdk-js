@@ -95,9 +95,9 @@ let props = {
 client.userDb.setCustomProperties("abc", props);
 ```
 
-### Logging Example
+<!-- ### Logging Example
 
-TBD: .......
+TBD: ....... -->
 
 ## Documentation
 
