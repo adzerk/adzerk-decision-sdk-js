@@ -14,7 +14,7 @@ Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
 npm install @adzerk/decision-sdk
 ```
 
-Or in your package.json file:
+Or in your `package.json` file:
 
 ```javascript
 "dependencies": {
