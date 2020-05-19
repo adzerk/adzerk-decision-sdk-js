@@ -1,6 +1,6 @@
-# Adzerk Decision JavaScript SDK
+# Adzerk JavaScript/Typescript Decision SDK
 
-JavaScript SDK for Adzerk Decision & UserDB APIs
+JavaScript Software Development Kit for Adzerk Decision & UserDB APIs
 
 Usable client or server-side as TypeScript or JavaScript!
 
@@ -11,15 +11,7 @@ Usable client or server-side as TypeScript or JavaScript!
 Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
 
 ```shell
-npm install @adzerk/decision-sdk
-```
-
-Or in your `package.json` file:
-
-```javascript
-"dependencies": {
-  "@adzerk/decision-sdk": "^1.0.0-alpha.1"
-}
+npm install --save @adzerk/decision-sdk
 ```
 
 ### Client-Side via CDN
@@ -80,11 +72,8 @@ client.userDb.read("abc").then(response => console.log(response));
 ```javascript
 import { Client } from "@adzerk/decision-sdk";
 
-// Requires setting API key in "$ADZERK_API_KEY" environ variable
-const API_KEY = process.env.ADZERK_API_KEY;
-
-// Demo network ID; find your own via the Adzerk UI!
-let client = new Client({ networkId: 23, apiKey: API_KEY });
+// Demo network ID and API key; find your own via the Adzerk UI!
+let client = new Client({ networkId: 23, apiKey: "YOUR_API_KEY" });
 
 let props = {
   favoriteColor: "blue",
