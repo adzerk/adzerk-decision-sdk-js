@@ -20,6 +20,7 @@ import { RequiredError } from './generated/runtime';
 (global as any).FormData = (global as any).FormData || FormData;
 
 const log = debug('adzerk-decision-sdk:client');
+const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
 
 function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
@@ -239,7 +240,7 @@ class PixelClient {
     let opts: any = {
       method: 'GET',
       headers: {
-        'X-Adzerk-Sdk-Version': 'adzerk-decision-sdk-js:v1',
+        'X-Adzerk-Sdk-Version': versionString,
         'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
       },
       redirect: 'manual',
@@ -299,6 +300,13 @@ export class Client {
         if (this._path != undefined) {
           context.url = `${basePath}${this._path}`;
         }
+
+        if (!context.init.headers) {
+          context.init.headers = {};
+        }
+
+        let headers = context.init.headers as Record<string, string>;
+        headers['X-Adzerk-Sdk-Version'] = versionString;
 
         return context;
       },
