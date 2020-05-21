@@ -159,7 +159,8 @@ test("client makes simple request and returns single winner response", async () 
         adTypes: [5]
       }
     ],
-    user: { key: "abc" }
+    user: { key: "abc" },
+    enableBotFiltering: false
   };
 
   let result = await client.decisions.get(request);
@@ -227,7 +228,8 @@ test("client makes simple request and returns multi winner response", async () =
         count: 3
       }
     ],
-    user: { key: "abc" }
+    user: { key: "abc" },
+    enableBotFiltering: false
   };
 
   let result = await client.decisions.get(request);

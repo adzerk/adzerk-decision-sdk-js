@@ -21,6 +21,7 @@ import { RequiredError } from './generated/runtime';
 
 const log = debug('adzerk-decision-sdk:client');
 const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
+const isNode = typeof process !== 'undefined';
 
 function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
@@ -74,6 +75,10 @@ class DecisionClient {
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
       'isMobile',
     ]);
+
+    if (processedRequest.enableBotFiltering === undefined) {
+      processedRequest.enableBotFiltering = !isNode;
+    }
 
     processedRequest.placements.forEach((p: Placement, idx: number) => {
       if (p.adTypes === undefined || p.adTypes.length === 0) {
@@ -279,7 +284,7 @@ export class Client {
 
     this._path = opts.path;
 
-    if (typeof process !== 'undefined') {
+    if (isNode) {
       let { Agent } = protocol === 'https' ? require('https') : require('http');
       this._agent = new Agent({
         keepAlive: true,
