@@ -21,7 +21,8 @@ import { RequiredError } from './generated/runtime';
 
 const log = debug('adzerk-decision-sdk:client');
 const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
-const isNode = typeof process !== 'undefined';
+const isNode = typeof process !== 'undefined' && process.title !== 'browser';
+console.log(process);
 
 function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
