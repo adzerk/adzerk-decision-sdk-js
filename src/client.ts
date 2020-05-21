@@ -80,8 +80,18 @@ class DecisionClient {
       processedRequest.enableBotFiltering = !isNode;
     }
 
+    if (
+      processedRequest.placements === undefined ||
+      !processedRequest.placements.length
+    ) {
+      throw new RequiredError(
+        'decisionRequest',
+        'Each request requires at least one placement'
+      );
+    }
+
     processedRequest.placements.forEach((p: Placement, idx: number) => {
-      if (p.adTypes === undefined || p.adTypes.length === 0) {
+      if (p.adTypes === undefined || !p.adTypes.length) {
         throw new RequiredError(
           'placements',
           'Each placement requires at least one ad type'
