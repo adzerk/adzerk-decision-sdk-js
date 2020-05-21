@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 13.x]
+        node-version: [10.x, 12.x, 13.x, 14.x]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -46,5 +46,6 @@ jobs:
         jfrog rt npmp npm
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
+        CI: true
 
 
