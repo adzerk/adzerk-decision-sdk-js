@@ -102,6 +102,13 @@ class DecisionClient {
           }
           let headers = context.init.headers as Record<string, string>;
           if (!!additionalOpts.includeExplanation) {
+            log('--------------------------------------------------------------');
+            log('              !!! WARNING - WARNING - WARNING !!!             ');
+            log('');
+            log('You have opted to include explainer details with this request!');
+            log('This will cause performance degradation and should not be done');
+            log('in production environments.');
+            log('--------------------------------------------------------------');
             headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
           if (!!additionalOpts.userAgent) {
