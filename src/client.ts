@@ -327,8 +327,8 @@ export class Client {
           context.init.headers = {};
         }
 
-        let headers = context.init.headers as Record<string, string>;
-        headers['X-Adzerk-Sdk-Version'] = versionString;
+        // let headers = context.init.headers as Record<string, string>;
+        // headers['X-Adzerk-Sdk-Version'] = versionString;
 
         return context;
       },
