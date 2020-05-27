@@ -6,6 +6,8 @@ Usable client or server-side as TypeScript or JavaScript!
 
 ## Installation
 
+[NPM Package](https://www.npmjs.com/package/@adzerk/decision-sdk)
+
 ### Server-Side via NPM
 
 Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
@@ -25,7 +27,7 @@ Always fetches the latest version:
 Using a fixed version:
 
 ```html
-<script src="https://unpkg.com/@adzerk/decision-sdk@1.0.0-alpha.1/dist/adzerk-decision-sdk.js"></script>
+<script src="https://unpkg.com/@adzerk/decision-sdk@1.0.0-beta.2/dist/adzerk-decision-sdk.js"></script>
 ```
 
 ## Examples
