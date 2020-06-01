@@ -59,6 +59,22 @@ client.decisions.get(request).then(response => {
 });
 ```
 
+### Recording Impression & Clicks
+
+Use with the fetch ad example above.
+
+```javascript
+// Impression pixel; fire when user sees the ad
+client.pixels.fire({ url: decision.impressionUrl });
+
+// Click pixel; fire when user clicks on the ad
+// status: HTTP status code
+// location: click target URL
+client.pixels
+  .fire({ url: decision.clickUrl })
+  .then(r => console.log(`status ${r["status"]}; location: ${r["location"]}`));
+```
+
 ### UserDB: Reading User Record
 
 ```javascript
