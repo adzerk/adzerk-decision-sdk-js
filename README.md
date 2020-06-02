@@ -102,7 +102,7 @@ let props = {
 client.userDb.setCustomProperties("abc", props);
 ```
 
-## UserDB: Forgetting User Record
+### UserDB: Forgetting User Record
 
 ```javascript
 import { Client } from "@adzerk/decision-sdk";
