@@ -6,6 +6,8 @@ Usable client or server-side as TypeScript or JavaScript!
 
 ## Installation
 
+[NPM Package](https://www.npmjs.com/package/@adzerk/decision-sdk)
+
 ### Server-Side via NPM
 
 Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
@@ -25,7 +27,7 @@ Always fetches the latest version:
 Using a fixed version:
 
 ```html
-<script src="https://unpkg.com/@adzerk/decision-sdk@1.0.0-alpha.1/dist/adzerk-decision-sdk.js"></script>
+<script src="https://unpkg.com/@adzerk/decision-sdk@1.0.0-beta.2/dist/adzerk-decision-sdk.js"></script>
 ```
 
 ## Examples
@@ -57,6 +59,22 @@ client.decisions.get(request).then(response => {
 });
 ```
 
+### Recording Impression & Clicks
+
+Use with the fetch ad example above.
+
+```javascript
+// Impression pixel; fire when user sees the ad
+client.pixels.fire({ url: decision.impressionUrl });
+
+// Click pixel; fire when user clicks on the ad
+// status: HTTP status code
+// location: click target URL
+client.pixels.fire({ url: decision.clickUrl }).then(r => {
+  console.log(`status ${r["status"]}; location: ${r["location"]}`);
+});
+```
+
 ### UserDB: Reading User Record
 
 ```javascript
@@ -72,8 +90,8 @@ client.userDb.read("abc").then(response => console.log(response));
 ```javascript
 import { Client } from "@adzerk/decision-sdk";
 
-// Demo network ID and API key; find your own via the Adzerk UI!
-let client = new Client({ networkId: 23, apiKey: "YOUR_API_KEY" });
+// Demo network ID; find your own via the Adzerk UI!
+let client = new Client({ networkId: 23 });
 
 let props = {
   favoriteColor: "blue",
@@ -82,6 +100,16 @@ let props = {
 };
 
 client.userDb.setCustomProperties("abc", props);
+```
+
+### UserDB: Forgetting User Record
+
+```javascript
+import { Client } from "@adzerk/decision-sdk";
+
+// Demo network ID and API key; find your own via the Adzerk UI!
+let client = new Client({ networkId: 23, apiKey: "YOUR-API-KEY" });
+client.userDb.forget("abc");
 ```
 
 <!-- ### Logging Example
