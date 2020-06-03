@@ -153,10 +153,6 @@ class UserDbClient {
     this._networkId = networkId;
   }
 
-  async setUserCookie(userKey: string, networkId?: number) {
-    return await this._api.setUserCookie(networkId || this._networkId, userKey);
-  }
-
   async setCustomProperties(userKey: string, properties: object, networkId?: number) {
     return await this._api.addCustomProperties(
       networkId || this._networkId,
