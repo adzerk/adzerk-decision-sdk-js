@@ -27,7 +27,7 @@ export interface GetDecisionsRequest {
 }
 
 /**
- * no description
+ *
  */
 export class DecisionApi extends runtime.BaseAPI {
   /**

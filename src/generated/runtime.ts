@@ -66,7 +66,7 @@ export class BaseAPI {
       url += '?' + this.configuration.queryParamsStringify(context.query);
     }
     const body =
-      context.body instanceof FormData ||
+      (typeof FormData !== 'undefined' && context.body instanceof FormData) ||
       context.body instanceof URLSearchParams ||
       isBlob(context.body)
         ? context.body
@@ -153,7 +153,7 @@ export class Configuration {
   constructor(private configuration: ConfigurationParameters = {}) {}
 
   get basePath(): string {
-    return this.configuration.basePath || BASE_PATH;
+    return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
   }
 
   get fetchApi(): FetchAPI {
@@ -202,7 +202,7 @@ export class Configuration {
 }
 
 export type Json = any;
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = {
   [key: string]:
