@@ -43,7 +43,7 @@ export interface DecisionRequest {
    */
   user?: User;
   /**
-   * Keywords for keyword Targeting. Such as `\"keywords\": [\"foo\", \"bar\", \"baz\"]`.
+   * Keywords for keyword Targeting. Such as `"keywords": ["foo", "bar", "baz"]`.
    * @type {Array<string>}
    * @memberof DecisionRequest
    */
@@ -91,7 +91,7 @@ export interface DecisionRequest {
    */
   notrack?: boolean | null;
   /**
-   * If making a client-side request, set to true. Defaults to false to ensure a server isn\'t seen as a bot. See [here](https://dev.adzerk.com/docs/tracking-overview#section-bot-filtering) for more info
+   * If making a client-side request, set to true. Defaults to false to ensure a server isn't seen as a bot. See [here](https://dev.adzerk.com/docs/tracking-overview#section-bot-filtering) for more info
    * @type {boolean}
    * @memberof DecisionRequest
    */

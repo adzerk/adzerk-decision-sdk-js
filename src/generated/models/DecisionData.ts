@@ -24,7 +24,13 @@ export interface DecisionData {
    * @type {string}
    * @memberof DecisionData
    */
-  imageURL?: string;
+  imageUrl?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof DecisionData
+   */
+  fileName?: string;
   /**
    *
    * @type {string}
@@ -63,7 +69,8 @@ export function DecisionDataFromJSONTyped(
     return json;
   }
   return {
-    imageURL: !exists(json, 'imageURL') ? undefined : json['imageURL'],
+    imageUrl: !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
+    fileName: !exists(json, 'fileName') ? undefined : json['fileName'],
     title: !exists(json, 'title') ? undefined : json['title'],
     width: !exists(json, 'width') ? undefined : json['width'],
     height: !exists(json, 'height') ? undefined : json['height'],
@@ -79,7 +86,8 @@ export function DecisionDataToJSON(value?: DecisionData | null): any {
     return null;
   }
   return {
-    imageURL: value.imageURL,
+    imageUrl: value.imageUrl,
+    fileName: value.fileName,
     title: value.title,
     width: value.width,
     height: value.height,
