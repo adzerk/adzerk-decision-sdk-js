@@ -13,6 +13,7 @@
  */
 
 import * as runtime from '../runtime';
+import { ConsentRequest, ConsentRequestFromJSON, ConsentRequestToJSON } from '../models';
 
 export interface AddCustomPropertiesRequest {
   networkId: number;
@@ -40,7 +41,7 @@ export interface ForgetRequest {
 
 export interface GdprConsentRequest {
   networkId: number;
-  body?: object;
+  consentRequest?: ConsentRequest;
 }
 
 export interface IpOverrideRequest {
@@ -66,13 +67,8 @@ export interface ReadRequest {
   userKey: string;
 }
 
-export interface SetUserCookieRequest {
-  networkId: number;
-  userKey: string;
-}
-
 /**
- * no description
+ *
  */
 export class UserdbApi extends runtime.BaseAPI {
   /**
@@ -391,7 +387,7 @@ export class UserdbApi extends runtime.BaseAPI {
       method: 'POST',
       headers: headerParameters,
       query: queryParameters,
-      body: requestParameters.body as any,
+      body: ConsentRequestToJSON(requestParameters.consentRequest),
     });
 
     return new runtime.BlobApiResponse(response);
@@ -400,8 +396,11 @@ export class UserdbApi extends runtime.BaseAPI {
   /**
    * GDPR Consent
    */
-  async gdprConsent(networkId: number, body?: object): Promise<Blob> {
-    const response = await this.gdprConsentRaw({ networkId: networkId, body: body });
+  async gdprConsent(networkId: number, consentRequest?: ConsentRequest): Promise<Blob> {
+    const response = await this.gdprConsentRaw({
+      networkId: networkId,
+      consentRequest: consentRequest,
+    });
     return await response.value();
   }
 
@@ -656,61 +655,6 @@ export class UserdbApi extends runtime.BaseAPI {
    */
   async read(networkId: number, userKey: string): Promise<object> {
     const response = await this.readRaw({ networkId: networkId, userKey: userKey });
-    return await response.value();
-  }
-
-  /**
-   * Set User Cookie
-   */
-  async setUserCookieRaw(
-    requestParameters: SetUserCookieRequest
-  ): Promise<runtime.ApiResponse<Blob>> {
-    if (
-      requestParameters.networkId === null ||
-      requestParameters.networkId === undefined
-    ) {
-      throw new runtime.RequiredError(
-        'networkId',
-        'Required parameter requestParameters.networkId was null or undefined when calling setUserCookie.'
-      );
-    }
-
-    if (requestParameters.userKey === null || requestParameters.userKey === undefined) {
-      throw new runtime.RequiredError(
-        'userKey',
-        'Required parameter requestParameters.userKey was null or undefined when calling setUserCookie.'
-      );
-    }
-
-    const queryParameters: runtime.HTTPQuery = {};
-
-    if (requestParameters.userKey !== undefined) {
-      queryParameters['userKey'] = requestParameters.userKey;
-    }
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    const response = await this.request({
-      path: `/udb/{networkId}/set/i.gif`.replace(
-        `{${'networkId'}}`,
-        encodeURIComponent(String(requestParameters.networkId))
-      ),
-      method: 'GET',
-      headers: headerParameters,
-      query: queryParameters,
-    });
-
-    return new runtime.BlobApiResponse(response);
-  }
-
-  /**
-   * Set User Cookie
-   */
-  async setUserCookie(networkId: number, userKey: string): Promise<Blob> {
-    const response = await this.setUserCookieRaw({
-      networkId: networkId,
-      userKey: userKey,
-    });
     return await response.value();
   }
 }

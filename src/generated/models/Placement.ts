@@ -68,7 +68,7 @@ export interface Placement {
    */
   adId?: number | null;
   /**
-   * The ad\'s click-through URL
+   * The ad's click-through URL
    * @type {string}
    * @memberof Placement
    */
@@ -92,7 +92,7 @@ export interface Placement {
    */
   overrides?: object | null;
   /**
-   * A map of key/value pairs used with [ContentDB](https://dev.adzerk.com/docs/contentdb-1). The format is `\"contentKeys\": {\"schema\": \"contentKey\"}`
+   * A map of key/value pairs used with [ContentDB](https://dev.adzerk.com/docs/contentdb-1). The format is `"contentKeys": {"schema": "contentKey"}`
    * @type {{ [key: string]: number; }}
    * @memberof Placement
    */
@@ -104,7 +104,7 @@ export interface Placement {
    */
   count?: number | null;
   /**
-   * (BETA) If true, fills ads in a multi-winner placement in proportion to the flight\'s goals
+   * (BETA) If true, fills ads in a multi-winner placement in proportion to the flight's goals
    * @type {boolean}
    * @memberof Placement
    */
