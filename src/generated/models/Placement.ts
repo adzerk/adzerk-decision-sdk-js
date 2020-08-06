@@ -115,6 +115,12 @@ export interface Placement {
    * @memberof Placement
    */
   ecpmPartition?: string | null;
+  /**
+   *
+   * @type {number}
+   * @memberof Placement
+   */
+  eventMultiplier?: number | null;
 }
 
 export function PlacementFromJSON(json: any): Placement {
@@ -147,6 +153,9 @@ export function PlacementFromJSONTyped(
       ? undefined
       : json['proportionality'],
     ecpmPartition: !exists(json, 'ecpmPartition') ? undefined : json['ecpmPartition'],
+    eventMultiplier: !exists(json, 'eventMultiplier')
+      ? undefined
+      : json['eventMultiplier'],
   };
 }
 
@@ -174,5 +183,6 @@ export function PlacementToJSON(value?: Placement | null): any {
     count: value.count,
     proportionality: value.proportionality,
     ecpmPartition: value.ecpmPartition,
+    eventMultiplier: value.eventMultiplier,
   };
 }
