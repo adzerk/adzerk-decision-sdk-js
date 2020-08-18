@@ -42,6 +42,7 @@ interface PixelFireOptions {
   url: string;
   revenueOverride?: number;
   additionalRevenue?: number;
+  eventMultiplier?: number;
 }
 
 interface AdditionalOptions {
@@ -246,6 +247,9 @@ class PixelClient {
     }
     if (params.additionalRevenue) {
       parsed.searchParams.append('additional', params.additionalRevenue.toString());
+    }
+    if (params.eventMultiplier) {
+      parsed.searchParams.append('eventMultiplier', params.eventMultiplier.toString());
     }
 
     return parsed.href;
