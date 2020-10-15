@@ -121,6 +121,12 @@ export interface Placement {
    * @memberof Placement
    */
   eventMultiplier?: number | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof Placement
+   */
+  skipSelection?: boolean | null;
 }
 
 export function PlacementFromJSON(json: any): Placement {
@@ -156,6 +162,7 @@ export function PlacementFromJSONTyped(
     eventMultiplier: !exists(json, 'eventMultiplier')
       ? undefined
       : json['eventMultiplier'],
+    skipSelection: !exists(json, 'skipSelection') ? undefined : json['skipSelection'],
   };
 }
 
@@ -184,5 +191,6 @@ export function PlacementToJSON(value?: Placement | null): any {
     proportionality: value.proportionality,
     ecpmPartition: value.ecpmPartition,
     eventMultiplier: value.eventMultiplier,
+    skipSelection: value.skipSelection,
   };
 }

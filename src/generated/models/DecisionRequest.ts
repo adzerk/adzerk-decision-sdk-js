@@ -18,6 +18,10 @@ import {
   PlacementFromJSON,
   PlacementFromJSONTyped,
   PlacementToJSON,
+  RequestLocation,
+  RequestLocationFromJSON,
+  RequestLocationFromJSONTyped,
+  RequestLocationToJSON,
   User,
   UserFromJSON,
   UserFromJSONTyped,
@@ -114,6 +118,36 @@ export interface DecisionRequest {
    * @memberof DecisionRequest
    */
   deviceID?: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof DecisionRequest
+   */
+  parallel?: boolean | null;
+  /**
+   *
+   * @type {string}
+   * @memberof DecisionRequest
+   */
+  intendedLatitude?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof DecisionRequest
+   */
+  intendedLongitude?: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof DecisionRequest
+   */
+  includeMatchedPoints?: boolean | null;
+  /**
+   *
+   * @type {RequestLocation}
+   * @memberof DecisionRequest
+   */
+  location?: RequestLocation;
 }
 
 export function DecisionRequestFromJSON(json: any): DecisionRequest {
@@ -148,6 +182,19 @@ export function DecisionRequestFromJSONTyped(
     enableUserDBIP: !exists(json, 'enableUserDBIP') ? undefined : json['enableUserDBIP'],
     consent: !exists(json, 'consent') ? undefined : json['consent'],
     deviceID: !exists(json, 'deviceID') ? undefined : json['deviceID'],
+    parallel: !exists(json, 'parallel') ? undefined : json['parallel'],
+    intendedLatitude: !exists(json, 'intendedLatitude')
+      ? undefined
+      : json['intendedLatitude'],
+    intendedLongitude: !exists(json, 'intendedLongitude')
+      ? undefined
+      : json['intendedLongitude'],
+    includeMatchedPoints: !exists(json, 'includeMatchedPoints')
+      ? undefined
+      : json['includeMatchedPoints'],
+    location: !exists(json, 'location')
+      ? undefined
+      : RequestLocationFromJSON(json['location']),
   };
 }
 
@@ -173,5 +220,10 @@ export function DecisionRequestToJSON(value?: DecisionRequest | null): any {
     enableUserDBIP: value.enableUserDBIP,
     consent: value.consent,
     deviceID: value.deviceID,
+    parallel: value.parallel,
+    intendedLatitude: value.intendedLatitude,
+    intendedLongitude: value.intendedLongitude,
+    includeMatchedPoints: value.includeMatchedPoints,
+    location: RequestLocationToJSON(value.location),
   };
 }
