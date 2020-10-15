@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-  DecisionData,
-  DecisionDataFromJSON,
-  DecisionDataFromJSONTyped,
-  DecisionDataToJSON,
-} from './';
-
 /**
  *
  * @export
@@ -46,10 +39,10 @@ export interface Content {
   customTemplate?: string;
   /**
    *
-   * @type {DecisionData}
+   * @type {object}
    * @memberof Content
    */
-  data?: DecisionData;
+  data?: object;
   /**
    *
    * @type {string}
@@ -70,7 +63,7 @@ export function ContentFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
     type: !exists(json, 'type') ? undefined : json['type'],
     template: !exists(json, 'template') ? undefined : json['template'],
     customTemplate: !exists(json, 'customTemplate') ? undefined : json['customTemplate'],
-    data: !exists(json, 'data') ? undefined : DecisionDataFromJSON(json['data']),
+    data: !exists(json, 'data') ? undefined : json['data'],
     body: !exists(json, 'body') ? undefined : json['body'],
   };
 }
@@ -86,7 +79,7 @@ export function ContentToJSON(value?: Content | null): any {
     type: value.type,
     template: value.template,
     customTemplate: value.customTemplate,
-    data: DecisionDataToJSON(value.data),
+    data: value.data,
     body: value.body,
   };
 }
