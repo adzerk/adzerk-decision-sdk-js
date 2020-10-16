@@ -1,7 +1,6 @@
 import {
   Content,
   Decision,
-  DecisionData,
   Event,
   Placement,
   PricingData,
@@ -37,7 +36,6 @@ export {
   Content,
   Decision,
   Decisions,
-  DecisionData,
   Event,
   Placement,
   PricingData,
