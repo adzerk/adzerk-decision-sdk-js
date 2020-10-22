@@ -13,16 +13,7 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-  MatchedPoint,
-  MatchedPointFromJSON,
-  MatchedPointFromJSONTyped,
-  MatchedPointToJSON,
-  User,
-  UserFromJSON,
-  UserFromJSONTyped,
-  UserToJSON,
-} from './';
+import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from './';
 
 /**
  *
@@ -48,12 +39,6 @@ export interface DecisionResponse {
    * @memberof DecisionResponse
    */
   explain?: object;
-  /**
-   *
-   * @type {Array<MatchedPoint>}
-   * @memberof DecisionResponse
-   */
-  matchedPoints?: Array<MatchedPoint>;
 }
 
 export function DecisionResponseFromJSON(json: any): DecisionResponse {
@@ -71,9 +56,6 @@ export function DecisionResponseFromJSONTyped(
     user: !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     decisions: !exists(json, 'decisions') ? undefined : json['decisions'],
     explain: !exists(json, 'explain') ? undefined : json['explain'],
-    matchedPoints: !exists(json, 'matchedPoints')
-      ? undefined
-      : (json['matchedPoints'] as Array<any>).map(MatchedPointFromJSON),
   };
 }
 
@@ -88,9 +70,5 @@ export function DecisionResponseToJSON(value?: DecisionResponse | null): any {
     user: UserToJSON(value.user),
     decisions: value.decisions,
     explain: value.explain,
-    matchedPoints:
-      value.matchedPoints === undefined
-        ? undefined
-        : (value.matchedPoints as Array<any>).map(MatchedPointToJSON),
   };
 }
