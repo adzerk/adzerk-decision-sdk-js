@@ -22,6 +22,10 @@ import {
   EventFromJSON,
   EventFromJSONTyped,
   EventToJSON,
+  MatchedPoint,
+  MatchedPointFromJSON,
+  MatchedPointFromJSONTyped,
+  MatchedPointToJSON,
   PricingData,
   PricingDataFromJSON,
   PricingDataFromJSONTyped,
@@ -90,6 +94,12 @@ export interface Decision {
   events?: Array<Event>;
   /**
    *
+   * @type {Array<MatchedPoint>}
+   * @memberof Decision
+   */
+  matchedPoints?: Array<MatchedPoint>;
+  /**
+   *
    * @type {PricingData}
    * @memberof Decision
    */
@@ -118,6 +128,9 @@ export function DecisionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     events: !exists(json, 'events')
       ? undefined
       : (json['events'] as Array<any>).map(EventFromJSON),
+    matchedPoints: !exists(json, 'matchedPoints')
+      ? undefined
+      : (json['matchedPoints'] as Array<any>).map(MatchedPointFromJSON),
     pricing: !exists(json, 'pricing') ? undefined : PricingDataFromJSON(json['pricing']),
   };
 }
@@ -145,6 +158,10 @@ export function DecisionToJSON(value?: Decision | null): any {
       value.events === undefined
         ? undefined
         : (value.events as Array<any>).map(EventToJSON),
+    matchedPoints:
+      value.matchedPoints === undefined
+        ? undefined
+        : (value.matchedPoints as Array<any>).map(MatchedPointToJSON),
     pricing: PricingDataToJSON(value.pricing),
   };
 }

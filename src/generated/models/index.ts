@@ -7,5 +7,4 @@ export * from './Event';
 export * from './MatchedPoint';
 export * from './Placement';
 export * from './PricingData';
-export * from './RequestLocation';
 export * from './User';

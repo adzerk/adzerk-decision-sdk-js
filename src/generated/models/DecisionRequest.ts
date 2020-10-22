@@ -18,10 +18,6 @@ import {
   PlacementFromJSON,
   PlacementFromJSONTyped,
   PlacementToJSON,
-  RequestLocation,
-  RequestLocationFromJSON,
-  RequestLocationFromJSONTyped,
-  RequestLocationToJSON,
   User,
   UserFromJSON,
   UserFromJSONTyped,
@@ -142,12 +138,6 @@ export interface DecisionRequest {
    * @memberof DecisionRequest
    */
   includeMatchedPoints?: boolean | null;
-  /**
-   *
-   * @type {RequestLocation}
-   * @memberof DecisionRequest
-   */
-  location?: RequestLocation;
 }
 
 export function DecisionRequestFromJSON(json: any): DecisionRequest {
@@ -192,9 +182,6 @@ export function DecisionRequestFromJSONTyped(
     includeMatchedPoints: !exists(json, 'includeMatchedPoints')
       ? undefined
       : json['includeMatchedPoints'],
-    location: !exists(json, 'location')
-      ? undefined
-      : RequestLocationFromJSON(json['location']),
   };
 }
 
@@ -224,6 +211,5 @@ export function DecisionRequestToJSON(value?: DecisionRequest | null): any {
     intendedLatitude: value.intendedLatitude,
     intendedLongitude: value.intendedLongitude,
     includeMatchedPoints: value.includeMatchedPoints,
-    location: RequestLocationToJSON(value.location),
   };
 }
