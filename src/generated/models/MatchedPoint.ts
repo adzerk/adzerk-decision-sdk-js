@@ -30,7 +30,7 @@ export interface MatchedPoint {
    * @type {string}
    * @memberof MatchedPoint
    */
-  _long?: string;
+  lon?: string;
 }
 
 export function MatchedPointFromJSON(json: any): MatchedPoint {
@@ -46,7 +46,7 @@ export function MatchedPointFromJSONTyped(
   }
   return {
     lat: !exists(json, 'lat') ? undefined : json['lat'],
-    _long: !exists(json, 'long') ? undefined : json['long'],
+    lon: !exists(json, 'lon') ? undefined : json['lon'],
   };
 }
 
@@ -59,6 +59,6 @@ export function MatchedPointToJSON(value?: MatchedPoint | null): any {
   }
   return {
     lat: value.lat,
-    long: value._long,
+    lon: value.lon,
   };
 }
