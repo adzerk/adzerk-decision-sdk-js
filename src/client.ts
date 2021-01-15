@@ -22,6 +22,9 @@ import { RequiredError } from './generated/runtime';
 const log = debug('adzerk-decision-sdk:client');
 const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
+const deprecatedPlacementFields: Array<Array<string>> = [
+  ['ecpmPartition', 'ecpmPartitions'],
+];
 
 function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
@@ -97,6 +100,15 @@ class DecisionClient {
           'placements',
           'Each placement requires at least one ad type'
         );
+      }
+
+      for (let pair of deprecatedPlacementFields) {
+        let [deprecatedField, replacement] = pair;
+        if (((p as any)[deprecatedField] || undefined) != undefined) {
+          log(
+            `DEPRECATION WARNING: ${deprecatedField} has been deprecated. Please use ${replacement} instead.`
+          );
+        }
       }
 
       p.networkId = p.networkId || this._networkId;
