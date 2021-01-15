@@ -116,6 +116,12 @@ export interface Placement {
    */
   ecpmPartition?: string | null;
   /**
+   * (BETA) The names of the eCPM Partitions that should be used to source eCPM data for auctions
+   * @type {Array<string>}
+   * @memberof Placement
+   */
+  ecpmPartitions?: Array<string> | null;
+  /**
    *
    * @type {number}
    * @memberof Placement
@@ -127,6 +133,12 @@ export interface Placement {
    * @memberof Placement
    */
   skipSelection?: boolean | null;
+  /**
+   *
+   * @type {object}
+   * @memberof Placement
+   */
+  adQuery?: object | null;
 }
 
 export function PlacementFromJSON(json: any): Placement {
@@ -159,10 +171,12 @@ export function PlacementFromJSONTyped(
       ? undefined
       : json['proportionality'],
     ecpmPartition: !exists(json, 'ecpmPartition') ? undefined : json['ecpmPartition'],
+    ecpmPartitions: !exists(json, 'ecpmPartitions') ? undefined : json['ecpmPartitions'],
     eventMultiplier: !exists(json, 'eventMultiplier')
       ? undefined
       : json['eventMultiplier'],
     skipSelection: !exists(json, 'skipSelection') ? undefined : json['skipSelection'],
+    adQuery: !exists(json, 'adQuery') ? undefined : json['adQuery'],
   };
 }
 
@@ -190,7 +204,9 @@ export function PlacementToJSON(value?: Placement | null): any {
     count: value.count,
     proportionality: value.proportionality,
     ecpmPartition: value.ecpmPartition,
+    ecpmPartitions: value.ecpmPartitions,
     eventMultiplier: value.eventMultiplier,
     skipSelection: value.skipSelection,
+    adQuery: value.adQuery,
   };
 }
