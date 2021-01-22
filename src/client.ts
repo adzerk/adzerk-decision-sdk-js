@@ -1,6 +1,8 @@
 import unfetch from 'isomorphic-unfetch';
 import debug from 'debug';
 import FormData from 'form-data';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 
 import {
   FetchAPI,
@@ -36,6 +38,7 @@ interface ClientOptions {
   path?: string;
   middlewares?: Middleware[];
   apiKey?: string;
+  agent?: HttpAgent | HttpsAgent;
 }
 
 interface PixelFireOptions {
@@ -303,10 +306,12 @@ export class Client {
 
     if (isNode) {
       let { Agent } = protocol === 'https' ? require('https') : require('http');
-      this._agent = new Agent({
-        keepAlive: true,
-        timeout: 10 * 1000,
-      });
+      this._agent =
+        opts.agent ||
+        new Agent({
+          keepAlive: true,
+          timeout: 10 * 1000,
+        });
     }
 
     let middleware: Middleware = {
@@ -335,6 +340,7 @@ export class Client {
       post: async (context: ResponseContext) => {
         log('Response Code: %s', context.response.status);
         log('Response Status Text: %s', context.response.statusText);
+        return context.response;
       },
     };
 
