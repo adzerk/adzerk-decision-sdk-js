@@ -112,9 +112,31 @@ let client = new Client({ networkId: 23, apiKey: "YOUR-API-KEY" });
 client.userDb.forget("abc");
 ```
 
-<!-- ### Logging Example
+### Logging
 
-TBD: ....... -->
+Our logging implementation is meant to be flexible enough to fit into any common NodeJS logging framework.
+
+When constructing a client instance, the logger is passed in as an anonymous function with three parameters:
+
+`level`: Any one of `debug`, `info`, `warn`, or `error`.
+
+`message`: The message to log.
+
+`metadata`: Any additional metadata related to the logging call.
+
+If no `logger` is provided as an argument, the default implementation will be used and write to the console.
+
+The easiest way to integrate is to write a function that handles translating the data from the Adzerk SDK Logger into whatever logging framework you're using in the rest of your application:
+
+```js
+const Adzerk = require("@adzerk/management-sdk");
+
+const logger = (level, message, metadata) => {
+  console.log(`(${level}) ${message} - ${JSON.stringify(metadata)}`);
+};
+
+let client = await Adzerk.buildClient({ logger });
+```
 
 ## Documentation
 

@@ -1,5 +1,6 @@
 import unfetch from 'isomorphic-unfetch';
 import FormData from 'form-data';
+import debug from 'debug';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 
@@ -21,6 +22,7 @@ import { LoggerFunc } from '.';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
+const log = debug('adzerk-decision-sdk:client');
 const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
 const deprecatedPlacementFields: Array<Array<string>> = [
@@ -32,7 +34,7 @@ function isDecisionMultiWinner(obj: any): boolean {
 }
 
 const defaultLogger: LoggerFunc = (lvl, msg, meta) =>
-  process.stdout.write(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
+  log(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
 
 interface ClientOptions {
   networkId: number;
