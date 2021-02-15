@@ -1,5 +1,4 @@
 import unfetch from 'isomorphic-unfetch';
-import debug from 'debug';
 import FormData from 'form-data';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
@@ -22,7 +21,6 @@ import { LoggerFunc } from '.';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
-const log = debug('adzerk-decision-sdk:client');
 const versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
 const deprecatedPlacementFields: Array<Array<string>> = [
@@ -85,8 +83,6 @@ class DecisionClient {
   ): Promise<DecisionResponse> {
     logger('info', 'Fetching decisions from Adzerk API');
     logger('info', 'Processing request: %o', request);
-    // log('Fetching decisions from Adzerk API');
-    // log('Processing request: %o', request);
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
       'isMobile',
     ]);
@@ -120,9 +116,6 @@ class DecisionClient {
             'warn',
             `DEPRECATION WARNING: ${deprecatedField} has been deprecated. Please use ${replacement} instead.`
           );
-          // log(
-          //   `DEPRECATION WARNING: ${deprecatedField} has been deprecated. Please use ${replacement} instead.`
-          // );
         }
       }
 
@@ -144,13 +137,6 @@ class DecisionClient {
               'warn',
               'You have opted to include explainer details with this request! This will cause performance degradation and should not be done in production environments.'
             );
-            // log('--------------------------------------------------------------');
-            // log('              !!! WARNING - WARNING - WARNING !!!             ');
-            // log('');
-            // log('You have opted to include explainer details with this request!');
-            // log('This will cause performance degradation and should not be done');
-            // log('in production environments.');
-            // log('--------------------------------------------------------------');
             headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
           if (!!additionalOpts.userAgent) {
@@ -160,12 +146,10 @@ class DecisionClient {
       );
     }
 
-    // log('Using the processed request: %o', processedRequest);
     logger('info', 'Using the processed request: %o', processedRequest);
     let response = await api.getDecisions(processedRequest as any);
 
     logger('info', 'Received response: %o', response);
-    //log('Received response: %o', response);
     let decisions: any = response.decisions || {};
 
     Object.keys(decisions).forEach((k: string) => {
@@ -351,10 +335,6 @@ export class Client {
         logger('info', `Request Headers: %o ${context.init.headers}`);
         logger('info', `Request Body: %o ${context.init.body}`);
 
-        // log(`Request Url: ${context.url}`);
-        // log('Request Headers: %o', context.init.headers);
-        // log('Request Body: %o', context.init.body);
-
         if (this._agent != undefined) {
           (context.init as any).agent = this._agent;
         }
@@ -375,8 +355,6 @@ export class Client {
       post: async (context: ResponseContext) => {
         logger('info', `Response Code: %s ${context.response.status}`);
         logger('info', `Response Status Text: %s ${context.response.statusText}`);
-        // log('Response Code: %s', context.response.status);
-        // log('Response Status Text: %s', context.response.statusText);
         return context.response;
       },
     };
