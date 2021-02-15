@@ -44,7 +44,7 @@ interface ClientOptions {
   middlewares?: Middleware[];
   apiKey?: string;
   agent?: HttpAgent | HttpsAgent;
-  logger: LoggerFunc;
+  logger?: LoggerFunc;
 }
 
 interface PixelFireOptions {
@@ -58,6 +58,7 @@ interface AdditionalOptions {
   userAgent?: string;
   includeExplanation?: boolean;
   apiKey?: string;
+  logger?: LoggerFunc;
 }
 
 interface PixelFireResponse {
@@ -78,9 +79,9 @@ class DecisionClient {
 
   async get(
     request: DecisionRequest,
-    logger: LoggerFunc,
     additionalOpts?: AdditionalOptions
   ): Promise<DecisionResponse> {
+    let logger = additionalOpts?.logger || defaultLogger;
     logger('info', 'Fetching decisions from Adzerk API');
     logger('info', 'Processing request: %o', request);
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
