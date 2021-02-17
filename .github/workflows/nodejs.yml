@@ -43,7 +43,6 @@ jobs:
         npm ci
         npm run build --if-present
         jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
-        jfrog rt npmci npm
         jfrog rt npmp npm
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
