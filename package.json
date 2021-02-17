@@ -42,7 +42,7 @@
     "typescript": "^3.6.4"
   },
   "resolutions": {
-    "node-forge": ">=0.10.0"
+    "node-forge": "0.10.0"
   },
   "husky": {
     "hooks": {
