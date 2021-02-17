@@ -60,7 +60,6 @@ interface AdditionalOptions {
   userAgent?: string;
   includeExplanation?: boolean;
   apiKey?: string;
-  logger?: LoggerFunc;
 }
 
 interface PixelFireResponse {
@@ -72,18 +71,25 @@ class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
   private _siteId?: number;
+  private _logger?: LoggerFunc;
 
-  constructor(configuration: Configuration, networkId: number, siteId?: number) {
+  constructor(
+    configuration: Configuration,
+    networkId: number,
+    siteId?: number,
+    logger?: LoggerFunc
+  ) {
     this._api = new DecisionApi(configuration);
     this._networkId = networkId;
     this._siteId = siteId;
+    this._logger = logger;
   }
 
   async get(
     request: DecisionRequest,
     additionalOpts?: AdditionalOptions
   ): Promise<DecisionResponse> {
-    let logger = additionalOpts?.logger || defaultLogger;
+    let logger = this._logger || defaultLogger;
     logger('info', 'Fetching decisions from Adzerk API');
     logger('info', 'Processing request: %o', request);
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
@@ -138,7 +144,13 @@ class DecisionClient {
           if (!!additionalOpts.includeExplanation) {
             logger(
               'warn',
-              'You have opted to include explainer details with this request! This will cause performance degradation and should not be done in production environments.'
+              '--------------------------------------------------------------\n' +
+                '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
+                '' +
+                'You have opted to include explainer details with this request!\n' +
+                'This will cause performance degradation and should not be done\n' +
+                'in production environments.\n' +
+                '--------------------------------------------------------------'
             );
             headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
