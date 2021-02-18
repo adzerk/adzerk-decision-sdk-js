@@ -9,7 +9,9 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
     "build": "tsc -p ./src && sed -i \"s/{NPM_PACKAGE_VERSION}/$npm_package_version/g\" lib/client.js && parcel build lib/index.js --out-dir dist --out-file adzerk-decision-sdk.js --global AdzerkDecisionSdk",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "size": "size-limit"
+    "size": "size-limit",
+    "lint-staged": "lint-staged",
+    "npm-force-resolutions": "npm-force-resolutions"
   },
   "repository": {
     "type": "git",
@@ -27,13 +29,14 @@
     "@types/jest": "^24.0.23",
     "@types/node": "^12.11.7",
     "@types/node-fetch": "^2.5.3",
-    "husky": "^3.1.0",
+    "husky": "^5.0.9",
     "jest": "^24.9.0",
     "lint-staged": "^9.4.3",
     "node-fetch": "^2.6.0",
     "node-forge": ">=0.10.0",
     "node-notifier": ">=8.0.1",
     "nodemon": "^1.19.4",
+    "npm-force-resolutions": "0.0.3",
     "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "size-limit": "^4.9.0",
@@ -43,11 +46,6 @@
   },
   "resolutions": {
     "node-forge": "0.10.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,ts,css,md}": [
