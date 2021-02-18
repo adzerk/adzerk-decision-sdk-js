@@ -9,9 +9,7 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
     "build": "tsc -p ./src && sed -i \"s/{NPM_PACKAGE_VERSION}/$npm_package_version/g\" lib/client.js && parcel build lib/index.js --out-dir dist --out-file adzerk-decision-sdk.js --global AdzerkDecisionSdk",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "size": "size-limit",
-    "lint-staged": "lint-staged",
-    "npm-force-resolutions": "npm-force-resolutions"
+    "size": "size-limit"
   },
   "repository": {
     "type": "git",
