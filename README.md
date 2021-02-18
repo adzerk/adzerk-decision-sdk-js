@@ -130,10 +130,11 @@ The easiest way to integrate is to write a function that handles translating the
 
 ```js
 const Adzerk = require("@adzerk/decision-sdk");
-const log = debug("adzerk-decision-sdk:client");
 
 const defaultLogger: LoggerFunc = (lvl, msg, meta) =>
-  log(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
+  console.log(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
+
+let client = new Client({ defaultLogger });
 ```
 
 ## Documentation

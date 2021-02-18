@@ -71,13 +71,13 @@ class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
   private _siteId?: number;
-  private _logger?: LoggerFunc;
+  private _logger: LoggerFunc;
 
   constructor(
     configuration: Configuration,
     networkId: number,
-    siteId?: number,
-    logger?: LoggerFunc
+    logger: LoggerFunc,
+    siteId?: number
   ) {
     this._api = new DecisionApi(configuration);
     this._networkId = networkId;
@@ -381,7 +381,12 @@ export class Client {
       middleware: [...(opts.middlewares || []), middleware],
     });
 
-    this._decisionClient = new DecisionClient(configuration, opts.networkId, opts.siteId);
+    this._decisionClient = new DecisionClient(
+      configuration,
+      opts.networkId,
+      logger,
+      opts.siteId
+    );
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
     this._pixelClient = new PixelClient(fetch, this._agent);
   }
