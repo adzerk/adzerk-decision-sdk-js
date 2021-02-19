@@ -35,6 +35,8 @@ jobs:
       uses: jfrog/setup-jfrog-cli@v1.1.1
       env:
         JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
+    - name: Install npm-force-resolutions
+      run: npm install -g npm-force-resolutions
     - name: Collect Environment Variables
       run: jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
     - name: Install Dependencies
