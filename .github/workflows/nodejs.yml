@@ -37,12 +37,10 @@ jobs:
         JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
     - name: artifactory publish
       run: |
-        sed --version
         npm --no-git-tag-version version prerelease --preid=${GITHUB_REF##*/}
-        npm ci
-        npm run build --if-present
         jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
         jfrog rt npmci npm
+        npm run build --if-present
         jfrog rt npmp npm
       env:
         CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
