@@ -33,7 +33,6 @@
     "node-forge": ">=0.10.0",
     "node-notifier": ">=8.0.1",
     "nodemon": "^1.19.4",
-    "npm-force-resolutions": "0.0.3",
     "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "size-limit": "^4.9.0",
