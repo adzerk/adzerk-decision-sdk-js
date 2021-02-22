@@ -91,7 +91,7 @@ class DecisionClient {
   ): Promise<DecisionResponse> {
     let logger = this._logger || defaultLogger;
     logger('info', 'Fetching decisions from Adzerk API');
-    logger('info', 'Processing request: %o', request);
+    logger('info', 'Processing request: ', request);
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
       'isMobile',
     ]);
@@ -161,10 +161,10 @@ class DecisionClient {
       );
     }
 
-    logger('info', 'Using the processed request: %o', processedRequest);
+    logger('info', 'Using the processed request: ', processedRequest);
     let response = await api.getDecisions(processedRequest as any);
 
-    logger('info', 'Received response: %o', response);
+    logger('info', 'Received response: ', response);
     let decisions: any = response.decisions || {};
 
     Object.keys(decisions).forEach((k: string) => {
@@ -347,8 +347,8 @@ export class Client {
     let middleware: Middleware = {
       pre: async (context: RequestContext): Promise<FetchParams | void> => {
         logger('info', `Request Url: ${context.url}`);
-        logger('info', `Request Headers: %o ${context.init.headers}`);
-        logger('info', `Request Body: %o ${context.init.body}`);
+        logger('info', `Request Headers: ${context.init.headers}`);
+        logger('info', `Request Body: ${context.init.body}`);
 
         if (this._agent != undefined) {
           (context.init as any).agent = this._agent;
@@ -368,8 +368,8 @@ export class Client {
         return context;
       },
       post: async (context: ResponseContext) => {
-        logger('info', `Response Code: %s ${context.response.status}`);
-        logger('info', `Response Status Text: %s ${context.response.statusText}`);
+        logger('info', `Response Code: ${context.response.status}`);
+        logger('info', `Response Status Text: ${context.response.statusText}`);
         return context.response;
       },
     };
