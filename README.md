@@ -118,16 +118,9 @@ Our logging implementation is meant to be flexible enough to fit into any common
 
 When constructing a client instance, the logger is passed in as an anonymous function with three parameters:
 
-<<<<<<< HEAD
-`level`: Any one of `debug`, `info`, `warn`, or `error`.
-`message`: The message to log.
-`metadata`: Any additional metadata related to the logging call.
-=======
-
 - `level`: Any one of `debug`, `info`, `warn`, or `error`
 - `message`: The message to log
 - `metadata`: Any additional metadata related to the logging call
-  > > > > > > > bddbb7bd4531f15825d5ee423a727b9bb99b2f1a
 
 If no `logger` is provided as an argument, the [debug](https://github.com/visionmedia/debug#readme) library will be used by default.
 

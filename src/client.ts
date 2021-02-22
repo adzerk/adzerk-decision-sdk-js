@@ -33,8 +33,7 @@ function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
 }
 
-const defaultLogger: LoggerFunc = (lvl, msg, meta) =>
-  log(`[${lvl}] ${msg} [${JSON.stringify('%o' + meta)}]\n`);
+const defaultLogger: LoggerFunc = (lvl, msg, meta) => log(`[${lvl}] ${msg} [%o]`, meta);
 
 interface ClientOptions {
   networkId: number;
