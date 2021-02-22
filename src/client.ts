@@ -34,7 +34,7 @@ function isDecisionMultiWinner(obj: any): boolean {
 }
 
 const defaultLogger: LoggerFunc = (lvl, msg, meta) => {
-  if (meta === undefined) {
+  if (meta === [undefined]) {
     log(`[${lvl}] ${msg}`);
   }
   log(`[${lvl}] ${msg} [%o]`, meta);
