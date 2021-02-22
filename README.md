@@ -119,9 +119,7 @@ Our logging implementation is meant to be flexible enough to fit into any common
 When constructing a client instance, the logger is passed in as an anonymous function with three parameters:
 
 `level`: Any one of `debug`, `info`, `warn`, or `error`.
-
 `message`: The message to log.
-
 `metadata`: Any additional metadata related to the logging call.
 
 If no `logger` is provided as an argument, the [debug](https://github.com/visionmedia/debug#readme) library will be used by default.
@@ -129,12 +127,12 @@ If no `logger` is provided as an argument, the [debug](https://github.com/vision
 The easiest way to integrate is to write a function that handles translating the data from the Adzerk SDK Logger into whatever logging framework you're using in the rest of your application:
 
 ```js
-import { Client } from "@adzerk/decision-sdk";
+import { Client, LoggerFunc } from "@adzerk/decision-sdk";
 
-const defaultLogger: LoggerFunc = (lvl, msg, meta) =>
+const logger: LoggerFunc = (lvl, msg, meta) =>
   console.log(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
 
-let client = new Client({ defaultLogger });
+let client = new Client({ logger });
 ```
 
 ## Documentation
