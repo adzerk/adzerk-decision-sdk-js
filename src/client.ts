@@ -271,10 +271,12 @@ class UserDbClient {
 class PixelClient {
   private _fetch: FetchAPI;
   private _agent: any;
+  private _logger: LoggerFunc;
 
-  constructor(fetch: FetchAPI, agent: any) {
+  constructor(fetch: FetchAPI, agent: any, logger: LoggerFunc) {
     this._fetch = fetch;
     this._agent = agent;
+    this._logger = logger;
   }
 
   private buildFireUrl(params: PixelFireOptions): string {
@@ -296,6 +298,7 @@ class PixelClient {
     params: PixelFireOptions,
     additionalOpts?: AdditionalOptions
   ): Promise<PixelFireResponse> {
+    let logger = this._logger || defaultLogger;
     let opts: any = {
       method: 'GET',
       headers: {
@@ -307,11 +310,23 @@ class PixelClient {
 
     let url: string = this.buildFireUrl(params);
 
+    logger('info', `Firing Pixel at base url of: ${url}`);
+
     if (!!this._agent) {
       opts.agent = this._agent;
     }
 
     let result = await this._fetch(url, opts);
+
+    let location;
+    if (result.headers.has('location')) {
+      location = result.headers.get('location') as string;
+    }
+
+    logger(
+      'info',
+      `Received response from pixel url: ${result.status} with location: ${location}`
+    );
 
     return {
       status: result.status,
@@ -393,7 +408,7 @@ export class Client {
       opts.siteId
     );
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
-    this._pixelClient = new PixelClient(fetch, this._agent);
+    this._pixelClient = new PixelClient(fetch, this._agent, logger);
   }
 
   get decisions(): DecisionClient {
