@@ -1,6 +1,6 @@
 import unfetch from 'isomorphic-unfetch';
-import debug from 'debug';
 import FormData from 'form-data';
+import debug from 'debug';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 
@@ -18,6 +18,7 @@ import { DecisionRequest, DecisionResponse } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
 import { UserdbApi } from './generated/apis/UserdbApi';
 import { RequiredError } from './generated/runtime';
+import { LoggerFunc } from '.';
 
 (global as any).FormData = (global as any).FormData || FormData;
 
@@ -32,6 +33,14 @@ function isDecisionMultiWinner(obj: any): boolean {
   return obj instanceof Array;
 }
 
+const defaultLogger: LoggerFunc = (lvl, msg, meta?) => {
+  if (meta != undefined) {
+    log(`[${lvl}] ${msg} [%o]`, meta);
+  } else {
+    log(`[${lvl}] ${msg}`);
+  }
+};
+
 interface ClientOptions {
   networkId: number;
   siteId?: number;
@@ -42,6 +51,7 @@ interface ClientOptions {
   middlewares?: Middleware[];
   apiKey?: string;
   agent?: HttpAgent | HttpsAgent;
+  logger?: LoggerFunc;
 }
 
 interface PixelFireOptions {
@@ -66,19 +76,27 @@ class DecisionClient {
   private _api: DecisionApi;
   private _networkId: number;
   private _siteId?: number;
+  private _logger: LoggerFunc;
 
-  constructor(configuration: Configuration, networkId: number, siteId?: number) {
+  constructor(
+    configuration: Configuration,
+    networkId: number,
+    logger: LoggerFunc,
+    siteId?: number
+  ) {
     this._api = new DecisionApi(configuration);
     this._networkId = networkId;
     this._siteId = siteId;
+    this._logger = logger;
   }
 
   async get(
     request: DecisionRequest,
     additionalOpts?: AdditionalOptions
   ): Promise<DecisionResponse> {
-    log('Fetching decisions from Adzerk API');
-    log('Processing request: %o', request);
+    let logger = this._logger || defaultLogger;
+    logger('info', 'Fetching decisions from Adzerk API');
+    logger('info', 'Processing request: ', request);
     let processedRequest: DecisionRequest = removeUndefinedAndBlocklisted(request, [
       'isMobile',
     ]);
@@ -108,7 +126,8 @@ class DecisionClient {
       for (let pair of deprecatedPlacementFields) {
         let [deprecatedField, replacement] = pair;
         if (((p as any)[deprecatedField] || undefined) != undefined) {
-          log(
+          logger(
+            'warn',
             `DEPRECATION WARNING: ${deprecatedField} has been deprecated. Please use ${replacement} instead.`
           );
         }
@@ -128,13 +147,16 @@ class DecisionClient {
           }
           let headers = context.init.headers as Record<string, string>;
           if (!!additionalOpts.includeExplanation) {
-            log('--------------------------------------------------------------');
-            log('              !!! WARNING - WARNING - WARNING !!!             ');
-            log('');
-            log('You have opted to include explainer details with this request!');
-            log('This will cause performance degradation and should not be done');
-            log('in production environments.');
-            log('--------------------------------------------------------------');
+            logger(
+              'warn',
+              '--------------------------------------------------------------\n' +
+                '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
+                '' +
+                'You have opted to include explainer details with this request!\n' +
+                'This will cause performance degradation and should not be done\n' +
+                'in production environments.\n' +
+                '--------------------------------------------------------------'
+            );
             headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
           if (!!additionalOpts.userAgent) {
@@ -144,10 +166,10 @@ class DecisionClient {
       );
     }
 
-    log('Using the processed request: %o', processedRequest);
+    logger('info', 'Using the processed request: ', processedRequest);
     let response = await api.getDecisions(processedRequest as any);
 
-    log('Received response: %o', response);
+    logger('info', 'Received response: ', response);
     let decisions: any = response.decisions || {};
 
     Object.keys(decisions).forEach((k: string) => {
@@ -249,10 +271,12 @@ class UserDbClient {
 class PixelClient {
   private _fetch: FetchAPI;
   private _agent: any;
+  private _logger: LoggerFunc;
 
-  constructor(fetch: FetchAPI, agent: any) {
+  constructor(fetch: FetchAPI, agent: any, logger: LoggerFunc) {
     this._fetch = fetch;
     this._agent = agent;
+    this._logger = logger;
   }
 
   private buildFireUrl(params: PixelFireOptions): string {
@@ -274,6 +298,7 @@ class PixelClient {
     params: PixelFireOptions,
     additionalOpts?: AdditionalOptions
   ): Promise<PixelFireResponse> {
+    let logger = this._logger || defaultLogger;
     let opts: any = {
       method: 'GET',
       headers: {
@@ -285,11 +310,23 @@ class PixelClient {
 
     let url: string = this.buildFireUrl(params);
 
+    logger('info', `Firing Pixel at base url of: ${url}`);
+
     if (!!this._agent) {
       opts.agent = this._agent;
     }
 
     let result = await this._fetch(url, opts);
+
+    let location;
+    if (result.headers.has('location')) {
+      location = result.headers.get('location') as string;
+    }
+
+    logger(
+      'info',
+      `Received response from pixel url: ${result.status} with location: ${location}`
+    );
 
     return {
       status: result.status,
@@ -310,6 +347,7 @@ export class Client {
   constructor(opts: ClientOptions) {
     let fetch: FetchAPI = (opts.fetch || unfetch).bind(global);
 
+    let logger = opts.logger || defaultLogger;
     let protocol: string = opts.protocol || 'https';
     let host: string = opts.host || `e-${opts.networkId}.adzerk.net`;
     let basePath: string = `${protocol}://${host}`;
@@ -328,9 +366,9 @@ export class Client {
 
     let middleware: Middleware = {
       pre: async (context: RequestContext): Promise<FetchParams | void> => {
-        log(`Request Url: ${context.url}`);
-        log('Request Headers: %o', context.init.headers);
-        log('Request Body: %o', context.init.body);
+        logger('info', `Request Url: ${context.url}`);
+        logger('info', `Request Headers: ${context.init.headers}`);
+        logger('info', `Request Body: ${context.init.body}`);
 
         if (this._agent != undefined) {
           (context.init as any).agent = this._agent;
@@ -350,8 +388,8 @@ export class Client {
         return context;
       },
       post: async (context: ResponseContext) => {
-        log('Response Code: %s', context.response.status);
-        log('Response Status Text: %s', context.response.statusText);
+        logger('info', `Response Code: ${context.response.status}`);
+        logger('info', `Response Status Text: ${context.response.statusText}`);
         return context.response;
       },
     };
@@ -363,9 +401,14 @@ export class Client {
       middleware: [...(opts.middlewares || []), middleware],
     });
 
-    this._decisionClient = new DecisionClient(configuration, opts.networkId, opts.siteId);
+    this._decisionClient = new DecisionClient(
+      configuration,
+      opts.networkId,
+      logger,
+      opts.siteId
+    );
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
-    this._pixelClient = new PixelClient(fetch, this._agent);
+    this._pixelClient = new PixelClient(fetch, this._agent, logger);
   }
 
   get decisions(): DecisionClient {
