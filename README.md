@@ -127,9 +127,9 @@ If no `logger` is provided as an argument, the [debug](https://github.com/vision
 The easiest way to integrate is to write a function that handles translating the data from the Adzerk SDK Logger into whatever logging framework you're using in the rest of your application:
 
 ```js
-import { Client, LoggerFunc } from "@adzerk/decision-sdk";
+import { Client } from "@adzerk/decision-sdk";
 
-const logger: LoggerFunc = (lvl, msg, meta) =>
+const logger = (lvl, msg, meta) =>
   console.log(`[${lvl}] ${msg} [${JSON.stringify(meta)}]\n`);
 
 let client = new Client({ logger });
