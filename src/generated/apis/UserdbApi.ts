@@ -94,7 +94,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -168,7 +168,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -252,7 +252,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -321,7 +321,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -369,7 +369,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
@@ -434,7 +434,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -511,7 +511,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -579,7 +579,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;
@@ -629,7 +629,7 @@ export class UserdbApi extends runtime.BaseAPI {
       );
     }
 
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     if (requestParameters.userKey !== undefined) {
       queryParameters['userKey'] = requestParameters.userKey;

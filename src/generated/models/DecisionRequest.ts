@@ -122,16 +122,22 @@ export interface DecisionRequest {
   parallel?: boolean | null;
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof DecisionRequest
    */
-  intendedLatitude?: string | null;
+  intendedLatitude?: number | null;
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof DecisionRequest
    */
-  intendedLongitude?: string | null;
+  intendedLongitude?: number | null;
+  /**
+   *
+   * @type {number}
+   * @memberof DecisionRequest
+   */
+  radius?: number | null;
   /**
    *
    * @type {boolean}
@@ -179,6 +185,7 @@ export function DecisionRequestFromJSONTyped(
     intendedLongitude: !exists(json, 'intendedLongitude')
       ? undefined
       : json['intendedLongitude'],
+    radius: !exists(json, 'radius') ? undefined : json['radius'],
     includeMatchedPoints: !exists(json, 'includeMatchedPoints')
       ? undefined
       : json['includeMatchedPoints'],
@@ -210,6 +217,7 @@ export function DecisionRequestToJSON(value?: DecisionRequest | null): any {
     parallel: value.parallel,
     intendedLatitude: value.intendedLatitude,
     intendedLongitude: value.intendedLongitude,
+    radius: value.radius,
     includeMatchedPoints: value.includeMatchedPoints,
   };
 }

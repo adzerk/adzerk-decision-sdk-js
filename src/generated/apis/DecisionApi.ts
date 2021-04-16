@@ -36,7 +36,7 @@ export class DecisionApi extends runtime.BaseAPI {
   async getDecisionsRaw(
     requestParameters: GetDecisionsRequest
   ): Promise<runtime.ApiResponse<DecisionResponse>> {
-    const queryParameters: runtime.HTTPQuery = {};
+    const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
