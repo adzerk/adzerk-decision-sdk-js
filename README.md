@@ -107,34 +107,38 @@ client.userDb.setCustomProperties("abc", props);
 ```javascript
 import { Client } from "@adzerk/decision-sdk";
 
+const apiKey = process.env.ADZERK_API_KEY;
+
 // Demo network ID and API key; find your own via the Adzerk UI!
-let client = new Client({ networkId: 23, apiKey: "YOUR-API-KEY" });
+let client = new Client({ networkId: 23, apiKey });
 client.userDb.forget("abc");
 ```
 
 ### Decision Explainer
 
-The Decision Explainer is a feature that returns information on a Decision API request explaining why each candidate ad was or was not chosen.
+The Decision Explainer returns information on a Decision API request explaining why each candidate ad was or was not chosen.
 
 ```javascript
 import { Client } from "@adzerk/decision-sdk";
+
+const apiKey = process.env.ADZERK_API_KEY;
 
 // Demo network, site, and ad type IDs; find your own via the Adzerk UI!
 let client = new Client({ networkId: 23, siteId: 667480 });
 
 let request = {
-  placements: [{adTypes: [5]}],
-  user: {key: "abc"},
+  placements: [{ adTypes: [5] }],
+  user: { key: "abc" },
   keywords: ["keyword1", "keyword2"]
 };
 
 const options = {
-  includeExplanation: true
-  apiKey: "YOUR-API-KEY"
+  includeExplanation: true,
+  apiKey
 };
 
 client.decisions.get(request, options).then(response => {
-  console.dir(response, {depth: null})
+  console.dir(response, { depth: null });
 });
 ```
 
