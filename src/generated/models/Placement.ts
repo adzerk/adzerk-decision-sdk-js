@@ -139,6 +139,18 @@ export interface Placement {
    * @memberof Placement
    */
   adQuery?: object | null;
+  /**
+   *
+   * @type {number}
+   * @memberof Placement
+   */
+  floorPrice?: number | null;
+  /**
+   *
+   * @type {number}
+   * @memberof Placement
+   */
+  floorCpc?: number | null;
 }
 
 export function PlacementFromJSON(json: any): Placement {
@@ -177,6 +189,8 @@ export function PlacementFromJSONTyped(
       : json['eventMultiplier'],
     skipSelection: !exists(json, 'skipSelection') ? undefined : json['skipSelection'],
     adQuery: !exists(json, 'adQuery') ? undefined : json['adQuery'],
+    floorPrice: !exists(json, 'floorPrice') ? undefined : json['floorPrice'],
+    floorCpc: !exists(json, 'floorCpc') ? undefined : json['floorCpc'],
   };
 }
 
@@ -208,5 +222,7 @@ export function PlacementToJSON(value?: Placement | null): any {
     eventMultiplier: value.eventMultiplier,
     skipSelection: value.skipSelection,
     adQuery: value.adQuery,
+    floorPrice: value.floorPrice,
+    floorCpc: value.floorCpc,
   };
 }
