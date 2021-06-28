@@ -356,7 +356,7 @@ export class Client {
     let versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
 
     if (!!opts.additionalVersionInfo) {
-      versionString = `${versionString};${opts.additionalVersionInfo}`;
+      versionString = `${opts.additionalVersionInfo};${versionString}`;
     }
 
     this._path = opts.path;
