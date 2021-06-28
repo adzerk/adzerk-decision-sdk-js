@@ -101,7 +101,7 @@ export class BaseAPI {
             fetch: this.fetchApi,
             url,
             init,
-            response,
+            response: response.clone(),
           })) || response;
       }
     }
@@ -244,6 +244,11 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
           .map(singleValue => encodeURIComponent(String(singleValue)))
           .join(`&${encodeURIComponent(fullKey)}=`);
         return `${encodeURIComponent(fullKey)}=${multiValue}`;
+      }
+      if (value instanceof Date) {
+        return `${encodeURIComponent(fullKey)}=${encodeURIComponent(
+          value.toISOString()
+        )}`;
       }
       if (value instanceof Object) {
         return querystring(value as HTTPQuery, fullKey);
