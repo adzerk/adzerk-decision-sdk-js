@@ -24,6 +24,8 @@ import { LoggerFunc } from '.';
 
 const log = debug('adzerk-decision-sdk:client');
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
+const isReactNative =
+  typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
 const deprecatedPlacementFields: Array<Array<string>> = [
   ['ecpmPartition', 'ecpmPartitions'],
 ];
@@ -361,7 +363,10 @@ export class Client {
 
     this._path = opts.path;
 
-    if (isNode) {
+    if (isNode && !isReactNative) {
+      // React Native builds a bundle at compilation time and resolves all packages but agents don't exist.
+      // This wrapper "tricks" ReactNative's compiler into ignoring requires it will never need at runtime.
+      let require = (p: any) => (global as any).require(p);
       let { Agent } = protocol === 'https' ? require('https') : require('http');
       this._agent =
         opts.agent ||
