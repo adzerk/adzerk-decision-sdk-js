@@ -364,10 +364,7 @@ export class Client {
     this._path = opts.path;
 
     if (isNode && !isReactNative) {
-      // React Native builds a bundle at compilation time and resolves all packages but agents don't exist.
-      // This wrapper "tricks" ReactNative's compiler into ignoring requires it will never need at runtime.
-      let require = (p: any) => (global as any).require(p);
-      let { Agent } = protocol === 'https' ? require('https') : require('http');
+      let { Agent } = require(protocol);
       this._agent =
         opts.agent ||
         new Agent({
