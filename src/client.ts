@@ -61,6 +61,7 @@ interface PixelFireOptions {
   revenueOverride?: number;
   additionalRevenue?: number;
   eventMultiplier?: number;
+  grossMerchandiseValue?: number;
 }
 
 interface AdditionalOptions {
@@ -314,6 +315,9 @@ class PixelClient {
     }
     if (params.eventMultiplier) {
       parsed.searchParams.append('eventMultiplier', params.eventMultiplier.toString());
+    }
+    if (params.grossMerchandiseValue) {
+      parsed.searchParams.append('gmv', params.grossMerchandiseValue.toString());
     }
 
     return parsed.href;
