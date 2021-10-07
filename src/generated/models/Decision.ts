@@ -49,6 +49,12 @@ export interface Decision {
    * @type {number}
    * @memberof Decision
    */
+  advertiserId?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Decision
+   */
   creativeId?: number;
   /**
    *
@@ -116,6 +122,7 @@ export function DecisionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
   }
   return {
     adId: !exists(json, 'adId') ? undefined : json['adId'],
+    advertiserId: !exists(json, 'advertiserId') ? undefined : json['advertiserId'],
     creativeId: !exists(json, 'creativeId') ? undefined : json['creativeId'],
     flightId: !exists(json, 'flightId') ? undefined : json['flightId'],
     campaignId: !exists(json, 'campaignId') ? undefined : json['campaignId'],
@@ -144,6 +151,7 @@ export function DecisionToJSON(value?: Decision | null): any {
   }
   return {
     adId: value.adId,
+    advertiserId: value.advertiserId,
     creativeId: value.creativeId,
     flightId: value.flightId,
     campaignId: value.campaignId,
