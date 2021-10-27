@@ -67,6 +67,7 @@ interface AdditionalOptions {
   userAgent?: string;
   includeExplanation?: boolean;
   apiKey?: string;
+  desiredAd?: [];
 }
 
 interface PixelFireResponse {
