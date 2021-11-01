@@ -160,7 +160,8 @@ class DecisionClient {
                 'in production environments.\n' +
                 '--------------------------------------------------------------'
             );
-            headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
+            headers['x-adzerk-explain'] =
+              additionalOpts.apiKey || JSON.stringify(additionalOpts.desiredAd) || '';
           }
           if (!!additionalOpts.userAgent) {
             headers['User-Agent'] = additionalOpts.userAgent || '';
