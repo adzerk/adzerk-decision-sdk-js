@@ -67,6 +67,8 @@ interface AdditionalOptions {
   userAgent?: string;
   includeExplanation?: boolean;
   apiKey?: string;
+  desiredAds?: [];
+  desiredAdMap?: {};
 }
 
 interface PixelFireResponse {
@@ -159,6 +161,25 @@ class DecisionClient {
                 'in production environments.\n' +
                 '--------------------------------------------------------------'
             );
+
+            if (additionalOpts.desiredAds) {
+              let headerObject = {
+                apiKey: additionalOpts.apiKey,
+                desiredAd: additionalOpts.desiredAds,
+              };
+
+              headers['x-adzerk-explain'] = JSON.stringify(headerObject);
+            }
+
+            if (additionalOpts.desiredAdMap) {
+              let headerObject = {
+                apiKey: additionalOpts.apiKey,
+                desiredAdMap: additionalOpts.desiredAdMap,
+              };
+
+              headers['x-adzerk-explain'] = JSON.stringify(headerObject);
+            }
+
             headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
           if (!!additionalOpts.userAgent) {
