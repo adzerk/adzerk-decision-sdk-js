@@ -82,17 +82,20 @@ class DecisionClient {
   private _networkId: number;
   private _siteId?: number;
   private _logger: LoggerFunc;
+  private _apiKey?: string;
 
   constructor(
     configuration: Configuration,
     networkId: number,
     logger: LoggerFunc,
-    siteId?: number
+    siteId?: number,
+    apiKey?: string
   ) {
     this._api = new DecisionApi(configuration);
     this._networkId = networkId;
     this._siteId = siteId;
     this._logger = logger;
+    this._apiKey = apiKey;
   }
 
   async get(
@@ -381,6 +384,7 @@ export class Client {
     let host: string = opts.host || `e-${opts.networkId}.adzerk.net`;
     let basePath: string = `${protocol}://${host}`;
     let versionString = 'adzerk-decision-sdk-js:{NPM_PACKAGE_VERSION}';
+    let adzerkApiKey = opts.apiKey;
 
     if (!!opts.additionalVersionInfo) {
       versionString = `${opts.additionalVersionInfo};${versionString}`;
@@ -419,6 +423,10 @@ export class Client {
         let headers = context.init.headers as Record<string, string>;
         headers['X-Adzerk-Sdk-Version'] = versionString;
 
+        if (adzerkApiKey) {
+          headers['X-Adzerk-ApiKey'] = adzerkApiKey;
+        }
+
         return context;
       },
       post: async (context: ResponseContext) => {
@@ -439,7 +447,8 @@ export class Client {
       configuration,
       opts.networkId,
       logger,
-      opts.siteId
+      opts.siteId,
+      adzerkApiKey
     );
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
     this._pixelClient = new PixelClient(fetch, this._agent, logger, versionString);
