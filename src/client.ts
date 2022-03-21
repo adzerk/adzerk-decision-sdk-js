@@ -170,22 +170,22 @@ class DecisionClient {
               };
 
               headers['x-adzerk-explain'] = JSON.stringify(headerObject);
-            }
-
-            if (additionalOpts.desiredAdMap) {
+            } else if (additionalOpts.desiredAdMap) {
               let headerObject = {
                 apiKey: additionalOpts.apiKey,
                 desiredAdMap: additionalOpts.desiredAdMap,
               };
 
               headers['x-adzerk-explain'] = JSON.stringify(headerObject);
+            } else {
+              headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
             }
-
-            headers['x-adzerk-explain'] = additionalOpts.apiKey || '';
           }
           if (!!additionalOpts.userAgent) {
             headers['User-Agent'] = additionalOpts.userAgent || '';
           }
+
+          return context;
         }
       );
     }
