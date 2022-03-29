@@ -101,7 +101,7 @@ export class BaseAPI {
             fetch: this.fetchApi,
             url,
             init,
-            response: response.clone(),
+            response: response,
           })) || response;
       }
     }
