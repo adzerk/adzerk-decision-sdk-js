@@ -93,10 +93,10 @@ export interface Placement {
   overrides?: object | null;
   /**
    * A map of key/value pairs used with [ContentDB](https://dev.adzerk.com/docs/contentdb-1). The format is `"contentKeys": {"schema": "contentKey"}`
-   * @type {{ [key: string]: number; }}
+   * @type {{ [key: string]: string; }}
    * @memberof Placement
    */
-  contentKeys?: { [key: string]: number } | null;
+  contentKeys?: { [key: string]: string } | null;
   /**
    * (BETA) The number of ads to return per placement. Integer between 1 and 20
    * @type {number}
