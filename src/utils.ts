@@ -19,3 +19,5 @@ export const removeUndefinedAndBlocklisted = (
           : ((acc[key] = obj[key]), acc);
       }, {});
 };
+
+export const NODE_MAJOR_VERSION = (typeof process) !== "undefined" && process.versions !== undefined && process.versions.node !== undefined ? Number(process.versions.node.split('.')[0]) : 0;

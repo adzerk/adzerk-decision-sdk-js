@@ -1,9 +1,8 @@
 import unfetch from 'isomorphic-unfetch';
-import FormData from 'form-data';
 import debug from 'debug';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
-
+import { NODE_MAJOR_VERSION } from './utils';
 import {
   FetchAPI,
   DecisionApi,
@@ -20,7 +19,9 @@ import { UserdbApi } from './generated/apis/UserdbApi';
 import { RequiredError } from './generated/runtime';
 import { LoggerFunc } from '.';
 
-(global as any).FormData = (global as any).FormData || FormData;
+if (NODE_MAJOR_VERSION < 18) {
+  (global as any).FormData = (global as any).FormData || FormData;
+}
 
 const log = debug('adzerk-decision-sdk:client');
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
