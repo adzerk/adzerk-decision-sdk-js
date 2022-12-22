@@ -65,3 +65,6 @@ lib
 
 # dist output
 dist
+
+# parcel cache
+.cache
