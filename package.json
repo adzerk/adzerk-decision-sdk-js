@@ -3,10 +3,17 @@
   "version": "1.0.0-beta.19",
   "description": "SDK for interacting with Adzerk's Decision API",
   "main": "lib/index.js",
+  "clientSideApp": "dist/adzerk-decision-sdk.js",
+  "targets": {
+    "clientSideApp": {
+      "source": "lib/index.js",
+      "outputFormat": "global"
+    }
+  },
   "scripts": {
     "test": "jest",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'tsc -p' .",
-    "build": "tsc -p ./src && sed -i \"s/{NPM_PACKAGE_VERSION}/$npm_package_version/g\" lib/client.js && parcel build lib/index.js --out-dir dist --out-file adzerk-decision-sdk.js --global AdzerkDecisionSdk",
+    "build": "tsc -p ./src && sed -i \"s/{NPM_PACKAGE_VERSION}/$npm_package_version/g\" lib/client.js && parcel build",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "size": "size-limit"
   },
@@ -33,8 +40,9 @@
     "node-forge": "^1.3.0",
     "node-notifier": ">=8.0.1",
     "nodemon": "^2.0.20",
-    "parcel": "^1.12.4",
+    "parcel": "^2.0.0",
     "prettier": "^1.19.1",
+    "process": "^0.11.10",
     "size-limit": "^8.1.0",
     "ts-jest": "^26.5.1",
     "ts-node": "^8.4.1",
