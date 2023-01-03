@@ -67,4 +67,5 @@ lib
 dist
 
 # parcel cache
+.parcel-cache
 .cache

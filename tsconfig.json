@@ -6,7 +6,7 @@
     "declaration": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "esModuleInterop": true,
     "outDir": "lib"
   }
