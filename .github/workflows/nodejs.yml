@@ -40,9 +40,7 @@ jobs:
     - name: Collect Environment Variables
       run: jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
     - name: Install Dependencies
-      run: jfrog rt npmci npm
-      env:
-        CI: true
+      run: jfrog npm ci
     - name: Build Package
       run: npm run build --if-present
     - name: Tag Version
