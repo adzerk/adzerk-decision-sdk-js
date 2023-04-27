@@ -41,6 +41,8 @@ jobs:
       run: jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
     - name: Install Dependencies
       run: jfrog rt npmci npm
+      env:
+        CI: true
     - name: Build Package
       run: npm run build --if-present
     - name: Tag Version
@@ -48,5 +50,4 @@ jobs:
     - name: Publish to Artifactory
       run: jfrog rt npmp npm
       env:
-        CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
         CI: true
