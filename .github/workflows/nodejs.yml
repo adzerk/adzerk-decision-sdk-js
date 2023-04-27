@@ -34,7 +34,7 @@ jobs:
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v1.2.0
       env:
-        JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
+        JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
     - name: Install npm-force-resolutions
       run: npm install -g npm-force-resolutions
     - name: Collect Environment Variables
