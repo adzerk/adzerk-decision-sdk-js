@@ -35,6 +35,8 @@ jobs:
         node-version: 18
     - name: Install npm-force-resolutions
       run: npm install -g npm-force-resolutions
+    - name: Install dependencies
+      run: npm install
     - name: Build Package
       run: npm run build --if-present
     - name: Tag Version
