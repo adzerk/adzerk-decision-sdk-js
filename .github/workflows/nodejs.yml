@@ -9,7 +9,8 @@ jobs:
       matrix:
         node-version: [ 14, 16, 18, 19]
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -26,27 +27,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Setup JFrog CLI
-      uses: jfrog/setup-jfrog-cli@v1.2.0
-      env:
-        JF_ARTIFACTORY_SERVER: ${{ secrets.JF_ARTIFACTORY_SERVER_1 }}
     - name: Install npm-force-resolutions
       run: npm install -g npm-force-resolutions
-    - name: Collect Environment Variables
-      run: jfrog rt bce adzerk-decision-sdk-js ${GITHUB_REF##*/}
-    - name: Install Dependencies
-      run: jfrog rt npmci npm
     - name: Build Package
       run: npm run build --if-present
     - name: Tag Version
       run: npm --no-git-tag-version version prerelease --preid=${GITHUB_REF##*/}
-    - name: Publish to Artifactory
-      run: jfrog rt npmp npm
+    - name: Publish to GitHub NPM Registry
       env:
-        CI_USERNAME_PASSWORD: ${{secrets.ci_username_password}}
-        CI: true
+        NPM_SECRET: ${{ secrets.GITHUB_TOKEN }}
+      run: npm publish
