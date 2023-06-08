@@ -4,6 +4,7 @@ on: [push]
 
 
 env:
+  NPM_REGISTRY: https://npm.pkg.github.com
   NPM_SECRET: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
