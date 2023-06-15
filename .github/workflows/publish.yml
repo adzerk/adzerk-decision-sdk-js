@@ -6,7 +6,7 @@ on:
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  NPM_REGISTRY: https://registry.npmjs.org
+  NPM_REGISTRY: registry.npmjs.org
   NPM_SECRET: ${{ secrets.NPM_TOKEN }}
 
 jobs:
