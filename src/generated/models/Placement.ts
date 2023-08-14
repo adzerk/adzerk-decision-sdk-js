@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    SkipFilters,
+    SkipFiltersFromJSON,
+    SkipFiltersFromJSONTyped,
+    SkipFiltersToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -151,6 +158,12 @@ export interface Placement {
      * @memberof Placement
      */
     floorCpc?: number | null;
+    /**
+     * 
+     * @type {SkipFilters}
+     * @memberof Placement
+     */
+    skipFilters?: SkipFilters;
 }
 
 export function PlacementFromJSON(json: any): Placement {
@@ -185,6 +198,7 @@ export function PlacementFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'adQuery': !exists(json, 'adQuery') ? undefined : json['adQuery'],
         'floorPrice': !exists(json, 'floorPrice') ? undefined : json['floorPrice'],
         'floorCpc': !exists(json, 'floorCpc') ? undefined : json['floorCpc'],
+        'skipFilters': !exists(json, 'skipFilters') ? undefined : SkipFiltersFromJSON(json['skipFilters']),
     };
 }
 
@@ -219,6 +233,7 @@ export function PlacementToJSON(value?: Placement | null): any {
         'adQuery': value.adQuery,
         'floorPrice': value.floorPrice,
         'floorCpc': value.floorCpc,
+        'skipFilters': SkipFiltersToJSON(value.skipFilters),
     };
 }
 

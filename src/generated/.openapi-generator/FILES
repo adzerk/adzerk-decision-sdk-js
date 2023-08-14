@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/DecisionApi.ts
 apis/UserdbApi.ts
 apis/index.ts
@@ -11,6 +12,7 @@ models/Event.ts
 models/MatchedPoint.ts
 models/Placement.ts
 models/PricingData.ts
+models/SkipFilters.ts
 models/User.ts
 models/index.ts
 runtime.ts
