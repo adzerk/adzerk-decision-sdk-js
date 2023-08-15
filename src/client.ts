@@ -13,11 +13,11 @@ import {
   RequestContext,
   ResponseContext,
   Placement,
-} from './generated';
+  RequiredError,
+  UserdbApi
+} from '@adzerk/api-decision-js';
 import { DecisionRequest, DecisionResponse } from './models';
 import { removeUndefinedAndBlocklisted } from './utils';
-import { UserdbApi } from './generated/apis/UserdbApi';
-import { RequiredError } from './generated/runtime';
 import { LoggerFunc } from '.';
 
 (global as any).FormData = (global as any).FormData || FormData;

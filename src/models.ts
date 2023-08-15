@@ -7,7 +7,7 @@ import {
   User,
   DecisionResponse,
   DecisionRequest,
-} from './generated/models';
+} from '@adzerk/api-decision-js';
 
 interface Decisions {
   [placementName: string]: Array<Decision>;
