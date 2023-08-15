@@ -59,6 +59,7 @@
     ]
   },
   "dependencies": {
+    "@adzerk/api-decision-js": "^1.0.10",
     "debug": "^4.1.1",
     "form-data": "^2.5.1",
     "isomorphic-unfetch": "^3.1.0"
