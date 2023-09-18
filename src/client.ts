@@ -335,6 +335,7 @@ class PixelClient {
       method: 'GET',
       headers: {
         'X-Adzerk-Sdk-Version': this._versionString,
+        'X-Kevel-ApiKey': additionalOpts?.apiKey,
         'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
       },
       redirect: 'manual',
