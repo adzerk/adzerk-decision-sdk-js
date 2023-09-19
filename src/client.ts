@@ -158,12 +158,12 @@ class DecisionClient {
             logger(
               'warn',
               '--------------------------------------------------------------\n' +
-              '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
-              '' +
-              'You have opted to include explainer details with this request!\n' +
-              'This will cause performance degradation and should not be done\n' +
-              'in production environments.\n' +
-              '--------------------------------------------------------------'
+                '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
+                '' +
+                'You have opted to include explainer details with this request!\n' +
+                'This will cause performance degradation and should not be done\n' +
+                'in production environments.\n' +
+                '--------------------------------------------------------------'
             );
 
             if (additionalOpts.desiredAds) {
@@ -295,22 +295,16 @@ class UserDbClient {
   }
 }
 
-type PixelClientOptions = {
-  apiKey?: string;
-}
-
 class PixelClient {
   private _fetch: FetchAPI;
   private _agent: any;
   private _logger: LoggerFunc;
-  private _options?: PixelClientOptions;
   private _versionString: string;
 
-  constructor(fetch: FetchAPI, agent: any, logger: LoggerFunc, versionString: string, options?: PixelClientOptions) {
+  constructor(fetch: FetchAPI, agent: any, logger: LoggerFunc, versionString: string) {
     this._fetch = fetch;
     this._agent = agent;
     this._logger = logger;
-    this._options = options;
     this._versionString = versionString;
   }
 
@@ -341,7 +335,7 @@ class PixelClient {
       method: 'GET',
       headers: {
         'X-Adzerk-Sdk-Version': this._versionString,
-        'X-Kevel-ApiKey': additionalOpts?.apiKey ?? this._options?.apiKey,
+        'X-Kevel-ApiKey': additionalOpts?.apiKey,
         'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
       },
       redirect: 'manual',
@@ -458,7 +452,7 @@ export class Client {
       adzerkApiKey
     );
     this._userDbClient = new UserDbClient(configuration, opts.networkId);
-    this._pixelClient = new PixelClient(fetch, this._agent, logger, versionString, { apiKey: adzerkApiKey });
+    this._pixelClient = new PixelClient(fetch, this._agent, logger, versionString);
   }
 
   get decisions(): DecisionClient {
