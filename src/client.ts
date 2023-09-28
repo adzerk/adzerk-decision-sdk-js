@@ -158,12 +158,12 @@ class DecisionClient {
             logger(
               'warn',
               '--------------------------------------------------------------\n' +
-                '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
-                '' +
-                'You have opted to include explainer details with this request!\n' +
-                'This will cause performance degradation and should not be done\n' +
-                'in production environments.\n' +
-                '--------------------------------------------------------------'
+              '--------------!!! WARNING - WARNING - WARNING !!!-------------\n' +
+              '' +
+              'You have opted to include explainer details with this request!\n' +
+              'This will cause performance degradation and should not be done\n' +
+              'in production environments.\n' +
+              '--------------------------------------------------------------'
             );
 
             if (additionalOpts.desiredAds) {
@@ -331,13 +331,21 @@ class PixelClient {
     additionalOpts?: AdditionalOptions
   ): Promise<PixelFireResponse> {
     let logger = this._logger || defaultLogger;
+
+    let headersbase = {
+      'X-Adzerk-Sdk-Version': this._versionString,
+      'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
+    };
+    let headers = additionalOpts?.apiKey ?
+      {
+        ...headersbase,
+        'X-Kevel-ApiKey': additionalOpts.apiKey,
+      } :
+      headersbase;
+
     let opts: any = {
       method: 'GET',
-      headers: {
-        'X-Adzerk-Sdk-Version': this._versionString,
-        'X-Kevel-ApiKey': additionalOpts?.apiKey,
-        'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
-      },
+      headers,
       redirect: 'manual',
     };
 
