@@ -337,10 +337,7 @@ class PixelClient {
       'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
     };
     let headers = additionalOpts?.apiKey ?
-      {
-        ...headersbase,
-        'X-Kevel-ApiKey': additionalOpts.apiKey,
-      } :
+      { ...headersbase, 'X-Kevel-ApiKey': additionalOpts.apiKey } :
       headersbase;
 
     let opts: any = {
