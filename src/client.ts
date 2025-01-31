@@ -26,6 +26,8 @@ const log = debug('adzerk-decision-sdk:client');
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
 const isReactNative =
   typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+/** @ts-ignore */
+const isWebpack = typeof __webpack_require__ === 'function'
 const deprecatedPlacementFields: Array<Array<string>> = [
   ['ecpmPartition', 'ecpmPartitions'],
 ];
@@ -398,7 +400,7 @@ export class Client {
 
     this._path = opts.path;
 
-    if (isNode && !isReactNative) {
+    if (isNode && !isReactNative && !isWebpack) {
       let { Agent } = require(protocol);
       this._agent =
         opts.agent ||
