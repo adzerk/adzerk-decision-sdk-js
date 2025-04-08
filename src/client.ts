@@ -334,7 +334,7 @@ class PixelClient {
   ): Promise<PixelFireResponse> {
     let logger = this._logger || defaultLogger;
 
-    let headersbase = {
+    let headersbase : Record<string, string> = {
       'X-Adzerk-Sdk-Version': this._versionString,
     };
     // Only add User-Agent if we're not in a browser
