@@ -336,8 +336,11 @@ class PixelClient {
 
     let headersbase = {
       'X-Adzerk-Sdk-Version': this._versionString,
-      'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
     };
+    // Only add User-Agent if we're not in a browser
+    if (typeof window === 'undefined') {
+      headersbase['User-Agent'] = additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js';
+    }
     let headers = additionalOpts?.apiKey ?
       { ...headersbase, 'X-Kevel-ApiKey': additionalOpts.apiKey } :
       headersbase;
