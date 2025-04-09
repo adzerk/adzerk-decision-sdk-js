@@ -10,7 +10,7 @@ Usable client or server-side as TypeScript or JavaScript!
 
 ### Server-Side via NPM
 
-Requires [Node.js v10](https://nodejs.org/en/about/releases/) or higher.
+Requires [Node.js v20](https://nodejs.org/en/about/releases/) or higher.
 
 ```shell
 npm install --save @adzerk/decision-sdk
