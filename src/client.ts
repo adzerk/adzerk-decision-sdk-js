@@ -26,6 +26,8 @@ const log = debug('adzerk-decision-sdk:client');
 const isNode = typeof process !== 'undefined' && process.title !== 'browser';
 const isReactNative =
   typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+/** @ts-ignore */
+const isWebpack = typeof __webpack_require__ === 'function'
 const deprecatedPlacementFields: Array<Array<string>> = [
   ['ecpmPartition', 'ecpmPartitions'],
 ];
@@ -332,10 +334,13 @@ class PixelClient {
   ): Promise<PixelFireResponse> {
     let logger = this._logger || defaultLogger;
 
-    let headersbase = {
+    let headersbase : Record<string, string> = {
       'X-Adzerk-Sdk-Version': this._versionString,
-      'User-Agent': additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js',
     };
+    // Only add User-Agent if we're not in a browser
+    if (typeof window === 'undefined') {
+      headersbase['User-Agent'] = additionalOpts?.userAgent || 'OpenAPI-Generator/1.0/js';
+    }
     let headers = additionalOpts?.apiKey ?
       { ...headersbase, 'X-Kevel-ApiKey': additionalOpts.apiKey } :
       headersbase;
@@ -398,7 +403,7 @@ export class Client {
 
     this._path = opts.path;
 
-    if (isNode && !isReactNative) {
+    if (isNode && !isReactNative && !isWebpack) {
       let { Agent } = require(protocol);
       this._agent =
         opts.agent ||
