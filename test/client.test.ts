@@ -243,6 +243,40 @@ test("client makes simple request and returns multi winner response", async () =
   expect(result).toEqual(expected);
 });
 
+test("client serializes skipFilters on a placement", async () => {
+  let fetch = buildFetchMock({});
+  let client = new Client({
+    networkId: 23,
+    fetch: fetch as any
+  });
+
+  let request = {
+    placements: [
+      {
+        divName: "div1",
+        networkId: 23,
+        siteId: 1,
+        adTypes: [5],
+        skipFilters: {
+          searchTerm: true,
+          keyword: true,
+          siteZone: true
+        }
+      }
+    ]
+  };
+
+  await client.decisions.get(request);
+
+  expect(fetch.mock.calls.length).toBe(1);
+  let body = JSON.parse(fetch.mock.calls[0][1].body);
+  expect(body.placements[0].skipFilters).toEqual({
+    searchTerm: true,
+    keyword: true,
+    siteZone: true
+  });
+});
+
 test("client makes explanation request with proper headers", async () => {
   let response = {};
   let fetch = buildFetchMock(response);
